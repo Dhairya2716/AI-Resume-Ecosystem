@@ -2,6 +2,16 @@ const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
+const generateToken = (id) => {
+
+    return jwt.sign(
+        { id },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "7d" }
+    )
+
+}
+
 const registerUser = async (req, res) => {
 
     try{
@@ -24,10 +34,18 @@ const registerUser = async (req, res) => {
             password: hashedPassword
         })
 
-        const token = jwt.sign(
-            { id: user._id },
-            process.env.JWT_SECRET_KEY,
-            { expiresIn: "7d" }
+        const token = generateToken(user._id)
+
+        //Cookie
+        res.cookie(
+            "token",
+            token,
+            {
+                httpOnly: true,
+                secure: true,
+                sameSite: "lax",
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            }
         )
 
         const userData = {
@@ -37,7 +55,7 @@ const registerUser = async (req, res) => {
         }
 
         res.status(201).json({
-            token,
+            message: "Registration Successful",
             user: userData
         })
 
@@ -74,10 +92,18 @@ const loginUser = async (req, res) => {
             })
         }
 
-        const token = jwt.sign(
-            { id: user._id },
-            process.env.JWT_SECRET_KEY,
-            { expiresIn: "7d" }
+        const token = generateToken(user._id)
+
+        //Cookie
+        res.cookie(
+            "token",
+            token,
+            {
+                httpOnly: true,
+                secure: false,
+                sameSite: "lax",
+                maxAge: 7 * 24 * 60 * 60 * 1000
+            }
         )
 
         const userData = {
@@ -87,7 +113,7 @@ const loginUser = async (req, res) => {
         }
 
         res.status(200).json({
-            token,
+            message: "Login Successful",
             user: userData
         })
 
@@ -102,7 +128,18 @@ const loginUser = async (req, res) => {
 
 }
 
+const logoutUser = async (req, res) => {
+
+    res.clearCookie("token")
+
+    res.status(200).json({
+        message: "Logout Successful"
+    })
+
+}
+
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    logoutUser
 }

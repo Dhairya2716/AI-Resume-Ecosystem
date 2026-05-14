@@ -4,28 +4,20 @@ const protect = async (req, res, next) => {
 
     try {
 
-        const authHeader = req.headers.authorization
+        //Token From Cookie
+        const token = req.cookies.token
 
-        console.log("AUTH HEADER:", authHeader)
-
-        if(!authHeader){
-
+        if(!token){
             return res.status(401).json({
-                message: "No token"
+                message: "Not Authorized"
             })
-
         }
 
-        const token = authHeader.split(" ")[1]
-
-        console.log("TOKEN:", token)
-
+        //VERIFY TOKEN
         const decoded = jwt.verify(
             token,
             process.env.JWT_SECRET_KEY
         )
-
-        console.log("DECODED:", decoded)
 
         req.user = decoded.id
 
