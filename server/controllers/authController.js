@@ -2,10 +2,10 @@ const User = require("../models/User")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 
-const generateToken = (id) => {
+const generateToken = (id, role) => {
 
     return jwt.sign(
-        { id },
+        { id, role },
         process.env.JWT_SECRET_KEY,
         { expiresIn: "7d" }
     )
@@ -14,13 +14,13 @@ const generateToken = (id) => {
 
 const registerUser = async (req, res) => {
 
-    try{
+    try {
 
         const { name, email, password } = req.body;
 
         const existingUser = await User.findOne({ email });
 
-        if(existingUser){
+        if (existingUser) {
             return res.status(400).json({
                 message: "User already exists"
             })
@@ -34,7 +34,7 @@ const registerUser = async (req, res) => {
             password: hashedPassword
         })
 
-        const token = generateToken(user._id)
+        const token = generateToken(user._id, user.role)
 
         //Cookie
         res.cookie(
@@ -51,7 +51,8 @@ const registerUser = async (req, res) => {
         const userData = {
             _id: user._id,
             name: user.name,
-            email: user.email 
+            email: user.email,
+            role: user.role
         }
 
         res.status(201).json({
@@ -60,7 +61,7 @@ const registerUser = async (req, res) => {
         })
 
     }
-    catch(err){
+    catch (err) {
 
         res.status(500).json({
             message: err.message
@@ -72,13 +73,13 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
 
-    try{
+    try {
 
         const { email, password } = req.body;
 
         const user = await User.findOne({ email })
 
-        if(!user){
+        if (!user) {
             return res.status(400).json({
                 message: "Invalid credentials"
             })
@@ -86,13 +87,13 @@ const loginUser = async (req, res) => {
 
         const isMatch = await bcrypt.compare(password, user.password)
 
-        if(!isMatch){
+        if (!isMatch) {
             return res.status(400).json({
                 message: "Invalid Credentials"
             })
         }
 
-        const token = generateToken(user._id)
+        const token = generateToken(user._id, user.role)
 
         //Cookie
         res.cookie(
@@ -109,7 +110,8 @@ const loginUser = async (req, res) => {
         const userData = {
             _id: user._id,
             name: user.name,
-            email: user.email 
+            email: user.email,
+            role: user.role
         }
 
         res.status(200).json({
@@ -118,7 +120,7 @@ const loginUser = async (req, res) => {
         })
 
     }
-    catch(err){
+    catch (err) {
 
         res.status(500).json({
             message: err.message

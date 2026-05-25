@@ -7,7 +7,7 @@ const protect = async (req, res, next) => {
         //Token From Cookie
         const token = req.cookies.token
 
-        if(!token){
+        if (!token) {
             return res.status(401).json({
                 message: "Not Authorized"
             })
@@ -19,12 +19,13 @@ const protect = async (req, res, next) => {
             process.env.JWT_SECRET_KEY
         )
 
-        req.user = decoded.id
+        //Storing Full User Data
+        req.user = decoded
 
         next()
 
     }
-    catch(error){
+    catch (error) {
 
         console.log("JWT ERROR:", error.message)
 

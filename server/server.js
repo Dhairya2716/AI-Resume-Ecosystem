@@ -1,36 +1,44 @@
 const express = require("express")
 const cors = require("cors")
-const dotenv = require("dotenv")
 const cookieParser = require("cookie-parser")
 const path = require("path")
+
+require("dotenv").config()
 
 const connectDB = require("./config/db")
 
 const authRoutes = require("./routes/authRoutes")
 const resumeRoutes = require("./routes/resumeRoutes")
-
-dotenv.config()
+const adminRoutes = require("./routes/adminRoutes")
 
 connectDB()
 
 const app = express()
 
+//CORS
 app.use(cors({
     origin: "http://localhost:5173",
     credentials: true
 }))
 
+//MIDDLEWARES
 app.use(express.json())
-
 app.use(cookieParser())
 
-app.use("/uploads", express.static(path.join(__dirname, "uploads")))
+//STATIC FOLDER
+app.use(
+    "/uploads",
+    express.static(path.join(__dirname, "uploads"))
+)
 
+//ROUTES
 app.use("/api/auth", authRoutes)
 app.use("/api/resume", resumeRoutes)
+app.use("/api/admin", adminRoutes)
 
+//HOME
 app.get("/", (req, res) => {
-    res.send("AI Resume Ecosystem API Running")  
+    res.send("AI Resume Ecosystem API Running")
 })
 
 const PORT = process.env.PORT || 5000
