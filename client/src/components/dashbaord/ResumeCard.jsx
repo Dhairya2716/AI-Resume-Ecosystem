@@ -9,7 +9,7 @@ function getScoreColor(score) {
   return "#dc2626";
 }
 
-export default function ResumeCard({ resume }) {
+export default function ResumeCard({ resume, onActionClick }) {
   const { name, role, uploadedAt, size, atsScore, status } = resume;
   const scoreColor = getScoreColor(atsScore);
   const pct = atsScore !== null ? atsScore : 0;
@@ -62,9 +62,30 @@ export default function ResumeCard({ resume }) {
 
       {/* Actions */}
       <div className={styles.resumeActions}>
-        <button className={styles.actionChip}>ATS</button>
-        <button className={styles.actionChip}>JD</button>
-        <button className={styles.actionChip}>Cover</button>
+        <button 
+          className={styles.actionChip}
+          onClick={() => onActionClick && onActionClick("ATS", resume)}
+          disabled={status !== "analyzed"}
+          style={{ opacity: status !== "analyzed" ? 0.5 : 1, cursor: status !== "analyzed" ? "not-allowed" : "pointer" }}
+        >
+          ATS
+        </button>
+        <button 
+          className={styles.actionChip}
+          onClick={() => onActionClick && onActionClick("JD", resume)}
+          disabled={status !== "analyzed"}
+          style={{ opacity: status !== "analyzed" ? 0.5 : 1, cursor: status !== "analyzed" ? "not-allowed" : "pointer" }}
+        >
+          JD
+        </button>
+        <button 
+          className={styles.actionChip}
+          onClick={() => onActionClick && onActionClick("Cover", resume)}
+          disabled={status !== "analyzed"}
+          style={{ opacity: status !== "analyzed" ? 0.5 : 1, cursor: status !== "analyzed" ? "not-allowed" : "pointer" }}
+        >
+          Cover
+        </button>
       </div>
     </motion.div>
   );
