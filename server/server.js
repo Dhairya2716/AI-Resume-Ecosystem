@@ -7,45 +7,58 @@ require("dotenv").config()
 
 const connectDB = require("./config/db")
 
+// ── Init Passport strategies before routes ──
+const { passport } = require("./config/passport")
+
 const authRoutes = require("./routes/authRoutes")
 const resumeRoutes = require("./routes/resumeRoutes")
 const adminRoutes = require("./routes/adminRoutes")
+
+const errorHandler = require("./middleware/errorMiddleware")
 
 connectDB()
 
 const app = express()
 
-//CORS
+// ── CORS ─────────────────────────────────────────────────────────────────
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true
 }))
 
-//MIDDLEWARES
+// ── CORE MIDDLEWARE ───────────────────────────────────────────────────────
 app.use(express.json())
 app.use(cookieParser())
+app.use(passport.initialize())   // stateless — no sessions
 
-//STATIC FOLDER
+// ── STATIC ───────────────────────────────────────────────────────────────
 app.use(
     "/uploads",
     express.static(path.join(__dirname, "uploads"))
 )
 
-//ROUTES
+// ── ROUTES ────────────────────────────────────────────────────────────────
 app.use("/api/auth", authRoutes)
 app.use("/api/resume", resumeRoutes)
 app.use("/api/admin", adminRoutes)
 
-//HOME
+// ── ERROR HANDLER ─────────────────────────────────────────────────────────
+app.use(errorHandler)
+
+// ── HEALTH CHECK ──────────────────────────────────────────────────────────
 app.get("/", (req, res) => {
-    res.send("AI Resume Ecosystem API Running")
+    res.send("AI Resume Ecosystem API Running ✓")
 })
+
+// ── GEMINI API KEY CHECK ─────────────────────────────────────────────────
+const GeminiApiKey = process.env.GEMINI_API_KEY || ''
+
+if (GeminiApiKey !== '') {
+    console.log("The Gemini Api Key is Loaded...")
+}
 
 const PORT = process.env.PORT || 5000
 
-app.listen(
-    PORT,
-    () => {
-        console.log(`Server running at port : ${PORT}`)
-    }
-)
+app.listen(PORT, () => {
+    console.log(`Server running at port : ${PORT}`)
+})

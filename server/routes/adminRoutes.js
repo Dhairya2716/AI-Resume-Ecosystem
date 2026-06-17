@@ -38,7 +38,7 @@ router.get(
 
             res.status(200).json({
                 success: true,
-                count: user.length,
+                count: users.length,
                 users
             })
 
