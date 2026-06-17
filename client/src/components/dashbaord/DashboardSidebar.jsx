@@ -1,3 +1,4 @@
+import { useAuth } from "../../context/AuthContext";
 import styles from "./Dashboard.module.css";
 
 const NAV_ITEMS = [
@@ -10,6 +11,8 @@ const NAV_ITEMS = [
 ];
 
 export default function DashboardSidebar({ activeNav = "dashboard", onUpload, user }) {
+  const { logout } = useAuth();
+
   return (
     <nav className={styles.topNav}>
       {/* Logo */}
@@ -35,8 +38,16 @@ export default function DashboardSidebar({ activeNav = "dashboard", onUpload, us
         <button className={styles.navUploadBtn} onClick={onUpload} id="upload-resume-btn">
           + Upload Resume
         </button>
+        <button 
+          onClick={logout} 
+          style={{ background: "transparent", border: "none", cursor: "pointer", color: "#6b7280", fontWeight: 500, fontSize: "0.9rem", padding: "0 0.5rem" }}
+          onMouseEnter={(e) => e.target.style.color = "#ef4444"}
+          onMouseLeave={(e) => e.target.style.color = "#6b7280"}
+        >
+          Logout
+        </button>
         <div className={styles.navAvatar} title={user?.email ?? "user@example.com"}>
-          A
+          {user?.name ? user.name.charAt(0).toUpperCase() : "A"}
         </div>
       </div>
     </nav>

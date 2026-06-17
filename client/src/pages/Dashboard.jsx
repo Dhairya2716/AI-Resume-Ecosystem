@@ -1,33 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useAuth } from "../context/AuthContext";
+import { getMyResumes } from "../api/resumeService";
 
 import DashboardSidebar from "../components/dashbaord/DashboardSidebar";
-import StatCard         from "../components/dashbaord/StatCard";
-import ResumeCard       from "../components/dashbaord/ResumeCard";
-import AnalysisItem     from "../components/dashbaord/AnalysisItem";
-import UploadModal      from "../components/dashbaord/UploadModal";
-import styles           from "../components/dashbaord/Dashboard.module.css";
-
-// ── Mock Data ──────────────────────────────────────────────────────────────
-const MOCK_RESUMES = [
-  { id: 1, name: "Software_Engineer_Resume.pdf", uploadedAt: "2025-05-18", size: "142 KB", atsScore: 87, status: "analyzed", role: "Software Engineer" },
-  { id: 2, name: "Product_Manager_v2.pdf",       uploadedAt: "2025-05-15", size: "98 KB",  atsScore: 74, status: "analyzed", role: "Product Manager"   },
-  { id: 3, name: "Data_Scientist_Resume.pdf",    uploadedAt: "2025-05-10", size: "210 KB", atsScore: 91, status: "analyzed", role: "Data Scientist"    },
-  { id: 4, name: "UX_Designer_Portfolio.pdf",    uploadedAt: "2025-05-08", size: "387 KB", atsScore: null, status: "pending", role: "UX Designer"     },
-];
+import StatCard from "../components/dashbaord/StatCard";
+import ResumeCard from "../components/dashbaord/ResumeCard";
+import AnalysisItem from "../components/dashbaord/AnalysisItem";
+import UploadModal from "../components/dashbaord/UploadModal";
+import JDMatchModal from "../components/dashbaord/JDMatchModal";
+import CoverLetterModal from "../components/dashbaord/CoverLetterModal";
+import DetailedInsightsModal from "../components/dashbaord/DetailedInsightsModal";
+import styles from "../components/dashbaord/Dashboard.module.css";
 
 const MOCK_ANALYSES = [
-  { id: 1, type: "ATS Check",    resume: "Software_Engineer_Resume.pdf", score: 87,   date: "May 18", highlight: "Strong keyword match",      tag: "ats"   },
-  { id: 2, type: "JD Match",     resume: "Product_Manager_v2.pdf",       score: 68,   date: "May 16", highlight: "Missing: Agile, OKR",        tag: "jd"    },
-  { id: 3, type: "ATS Check",    resume: "Data_Scientist_Resume.pdf",    score: 91,   date: "May 11", highlight: "Excellent formatting",       tag: "ats"   },
-  { id: 4, type: "Cover Letter", resume: "Software_Engineer_Resume.pdf", score: null, date: "May 19", highlight: "Generated for Google SWE",   tag: "cover" },
+  { id: 1, type: "ATS Check", resume: "Software_Engineer_Resume.pdf", score: 87, date: "May 18", highlight: "Strong keyword match", tag: "ats" },
+  { id: 2, type: "JD Match", resume: "Product_Manager_v2.pdf", score: 68, date: "May 16", highlight: "Missing: Agile, OKR", tag: "jd" },
+  { id: 3, type: "ATS Check", resume: "Data_Scientist_Resume.pdf", score: 91, date: "May 11", highlight: "Excellent formatting", tag: "ats" },
+  { id: 4, type: "Cover Letter", resume: "Software_Engineer_Resume.pdf", score: null, date: "May 19", highlight: "Generated for Google SWE", tag: "cover" },
 ];
 
 const QUICK_ACTIONS = [
-  { icon: "◎", label: "Run ATS Check",         bg: "#f0fdf4", color: "#16a34a" },
-  { icon: "≡", label: "Match Job Description",  bg: "#eff6ff", color: "#2563eb" },
-  { icon: "✉", label: "Generate Cover Letter",  bg: "#faf5ff", color: "#9333ea" },
-  { icon: "⊡", label: "Browse Templates",       bg: "#fffbeb", color: "#d97706" },
+  { icon: "◎", label: "Run ATS Check", bg: "#f0fdf4", color: "#16a34a" },
+  { icon: "≡", label: "Match Job Description", bg: "#eff6ff", color: "#2563eb" },
+  { icon: "✉", label: "Generate Cover Letter", bg: "#faf5ff", color: "#9333ea" },
+  { icon: "⊡", label: "Browse Templates", bg: "#fffbeb", color: "#d97706" },
 ];
 
 // stagger container
@@ -38,30 +35,70 @@ const listVariants = {
 
 const itemVariants = {
   hidden: { opacity: 0, y: 10 },
-  show:   { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120, damping: 16 } },
+  show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120, damping: 16 } },
 };
 
 export default function Dashboard() {
   const [showUpload, setShowUpload] = useState(false);
-  const [activeTab, setActiveTab]   = useState("all");
+  const [showJDModal, setShowJDModal] = useState(false);
+  const [showCLModal, setShowCLModal] = useState(false);
+  const [selectedInsightsResume, setSelectedInsightsResume] = useState(null);
+  const [activeTab, setActiveTab] = useState("all");
+  const [resumes, setResumes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { user } = useAuth();
 
-  const scoredResumes  = MOCK_RESUMES.filter((r) => r.atsScore !== null);
-  const avgScore       = scoredResumes.length
+  const handleResumeAction = (action, resume) => {
+    if (action === "ATS") setSelectedInsightsResume(resume);
+    if (action === "JD") setShowJDModal(true);
+    if (action === "Cover") setShowCLModal(true);
+  };
+
+  const fetchResumes = async () => {
+    try {
+      const data = await getMyResumes();
+      // Map DB resumes to the UI structure expected by ResumeCard
+      const formattedResumes = data.resumes.map(r => ({
+        id: r._id,
+        name: r.title,
+        uploadedAt: new Date(r.createdAt).toISOString().split('T')[0],
+        size: "File",
+        atsScore: r.atsScore || null,
+        status: r.analysisStatus ? r.analysisStatus.toLowerCase() : (r.atsScore ? "analyzed" : "pending"),
+        role: r.template || "Unknown",
+        strengths: r.strengths || [],
+        weaknesses: r.weaknesses || [],
+        aiSuggestions: r.aiSuggestions || []
+      }));
+      setResumes(formattedResumes);
+    } catch (err) {
+      console.error("Failed to fetch resumes", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchResumes();
+  }, []);
+
+  const scoredResumes = resumes.filter((r) => r.atsScore !== null);
+  const avgScore = scoredResumes.length
     ? Math.round(scoredResumes.reduce((a, r) => a + r.atsScore, 0) / scoredResumes.length)
     : 0;
-  const pendingCount   = MOCK_RESUMES.filter((r) => r.status === "pending").length;
+  const pendingCount = resumes.filter((r) => r.status === "pending").length;
   const filteredResumes =
-    activeTab === "all" ? MOCK_RESUMES : MOCK_RESUMES.filter((r) => r.status === activeTab);
+    activeTab === "all" ? resumes : resumes.filter((r) => r.status === activeTab);
 
   // SVG ring helpers
-  const R   = 34;
+  const R = 34;
   const circ = 2 * Math.PI * R;
 
   return (
     <>
       <div className={styles.dashRoot}>
         {/* ── Top Nav ──────────────────────────────────────────────────── */}
-        <DashboardSidebar activeNav="dashboard" onUpload={() => setShowUpload(true)} />
+        <DashboardSidebar activeNav="dashboard" onUpload={() => setShowUpload(true)} user={user} />
 
         {/* ── Page Body ────────────────────────────────────────────────── */}
         <div className={styles.pageBody}>
@@ -72,7 +109,7 @@ export default function Dashboard() {
             {/* Page header */}
             <div className={styles.pageHeader}>
               <div className={styles.pageHeaderLeft}>
-                <h1 className={styles.pageTitle}>Good morning, Alex 👋</h1>
+                <h1 className={styles.pageTitle}>Good morning, {user?.name?.split(' ')[0] || 'there'} 👋</h1>
                 <div className={styles.pageDate}>
                   <span className={styles.pageDateDot} />
                   {new Date().toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })}
@@ -88,10 +125,10 @@ export default function Dashboard() {
               animate="show"
             >
               {[
-                { label: "Total Resumes",  value: MOCK_RESUMES.length, change: "↑ 2 this month", accent: "lime",  progress: 80 },
-                { label: "Avg ATS Score",  value: `${avgScore}%`,      change: "↑ 4 pts from last", accent: "blue",  progress: avgScore },
-                { label: "Analyses Run",   value: MOCK_ANALYSES.length, change: "All time",       accent: "pink",  progress: 100 },
-                { label: "Pending Review", value: pendingCount,         change: "Awaiting",        accent: "amber", progress: 25  },
+                { label: "Total Resumes", value: resumes.length, change: "All time", accent: "lime", progress: 80 },
+                { label: "Avg ATS Score", value: `${avgScore}%`, change: "Calculated from analyzed", accent: "blue", progress: avgScore },
+                { label: "Analyses Run", value: MOCK_ANALYSES.length, change: "All time", accent: "pink", progress: 100 },
+                { label: "Pending Review", value: pendingCount, change: "Awaiting", accent: "amber", progress: 25 },
               ].map((s) => (
                 <motion.div key={s.label} variants={itemVariants}>
                   <StatCard {...s} />
@@ -127,13 +164,19 @@ export default function Dashboard() {
                 </div>
 
                 {/* Rows */}
-                <motion.div variants={listVariants} initial="hidden" animate="show">
-                  {filteredResumes.map((resume) => (
-                    <motion.div key={resume.id} variants={itemVariants}>
-                      <ResumeCard resume={resume} />
-                    </motion.div>
-                  ))}
-                </motion.div>
+                {loading ? (
+                  <div style={{ padding: "2rem", textAlign: "center", color: "#6b7280" }}>Loading resumes...</div>
+                ) : filteredResumes.length === 0 ? (
+                  <div style={{ padding: "2rem", textAlign: "center", color: "#6b7280" }}>No resumes found. Upload one to get started!</div>
+                ) : (
+                  <motion.div variants={listVariants} initial="hidden" animate="show">
+                    {filteredResumes.map((resume) => (
+                      <motion.div key={resume.id} variants={itemVariants}>
+                        <ResumeCard resume={resume} onActionClick={handleResumeAction} />
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                )}
 
                 {/* Upload CTA at bottom of table */}
                 <motion.div
@@ -189,6 +232,11 @@ export default function Dashboard() {
                     whileHover={{ x: 3 }}
                     transition={{ type: "spring", stiffness: 300, damping: 22 }}
                     className={styles.quickActionItem}
+                    onClick={() => {
+                      if (a.label === 'Match Job Description') setShowJDModal(true);
+                      if (a.label === 'Generate Cover Letter') setShowCLModal(true);
+                    }}
+                    style={{ cursor: (a.label === 'Match Job Description' || a.label === 'Generate Cover Letter') ? 'pointer' : 'default' }}
                   >
                     <div className={styles.quickActionIconWrap} style={{ background: a.bg, color: a.color }}>
                       {a.icon}
@@ -256,7 +304,16 @@ export default function Dashboard() {
       </div>
 
       {/* ── Upload Modal ───────────────────────────────────────────────── */}
-      {showUpload && <UploadModal onClose={() => setShowUpload(false)} />}
+      {showUpload && <UploadModal onClose={() => setShowUpload(false)} onSuccess={fetchResumes} />}
+
+      {/* ── JD Match Modal ─────────────────────────────────────────────── */}
+      {showJDModal && <JDMatchModal onClose={() => setShowJDModal(false)} resumes={resumes} />}
+
+      {/* ── Cover Letter Modal ─────────────────────────────────────────── */}
+      {showCLModal && <CoverLetterModal onClose={() => setShowCLModal(false)} resumes={resumes} />}
+
+      {/* ── Detailed Insights Modal ────────────────────────────────────── */}
+      {selectedInsightsResume && <DetailedInsightsModal onClose={() => setSelectedInsightsResume(null)} resume={selectedInsightsResume} />}
     </>
   );
 }
