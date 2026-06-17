@@ -416,7 +416,7 @@ export default function Home() {
 
           {!isMobile && (
             <div style={{ display: "flex", gap: 12 }}>
-              <Link to="/login" style={{
+              <Link to="/register?mode=login" style={{
                 padding: "8px 20px",
                 borderRadius: 8,
                 border: "1px solid #ddd",
@@ -428,7 +428,7 @@ export default function Home() {
               }}>
                 Sign in
               </Link>
-              <Link to="/register" style={{
+              <Link to="/register?mode=register" style={{
                 padding: "8px 20px",
                 borderRadius: 8,
                 border: "1px solid #111",
@@ -490,7 +490,7 @@ export default function Home() {
                 </a>
               ))}
               <div style={{ display: "flex", gap: 8, marginTop: 8, flexDirection: "column" }}>
-                <Link to="/login" style={{
+                <Link to="/register?mode=login" style={{
                   padding: "10px 16px",
                   borderRadius: 8,
                   border: "1px solid #ddd",
@@ -503,7 +503,7 @@ export default function Home() {
                 }}>
                   Sign in
                 </Link>
-                <Link to="/register" style={{
+                <Link to="/register?mode=register" style={{
                   padding: "10px 16px",
                   borderRadius: 8,
                   border: "1px solid #111",
@@ -606,7 +606,7 @@ export default function Home() {
           </p>
 
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap", maxWidth: "100%" }}>
-            <Link to="/register" style={{
+            <Link to="/register?mode=register" style={{
               padding: isMobile ? "12px 24px" : "14px 32px",
               borderRadius: 12,
               background: "#111",
@@ -926,7 +926,7 @@ export default function Home() {
                 fontWeight: 700,
               }}>AI</span>.
             </p>
-            <Link to="/register" style={{
+            <Link to="/register?mode=register" style={{
               display: "inline-block",
               padding: isMobile ? "14px 32px" : "16px 40px",
               borderRadius: 14,
