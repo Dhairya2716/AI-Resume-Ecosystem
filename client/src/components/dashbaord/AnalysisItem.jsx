@@ -3,16 +3,16 @@ import styles from "./Dashboard.module.css";
 import { motion } from "framer-motion";
 
 const TAG_META = {
-  ats:   { color: "#16a34a" },
-  jd:    { color: "#2563eb" },
-  cover: { color: "#9333ea" },
+  ats:   { color: "#4ade80" },
+  jd:    { color: "#60a5fa" },
+  cover: { color: "#c084fc" },
 };
 
 function getScoreColor(score) {
-  if (score === null) return "#9ca3af";
-  if (score >= 85) return "#16a34a";
-  if (score >= 65) return "#d97706";
-  return "#dc2626";
+  if (score === null) return "#94a3b8";
+  if (score >= 85) return "#4ade80";
+  if (score >= 65) return "#fbbf24";
+  return "#f87171";
 }
 
 export default function AnalysisItem({ item }) {
@@ -21,7 +21,7 @@ export default function AnalysisItem({ item }) {
 
   return (
     <motion.div
-      whileHover={{ x: 3, background: "#fafbff" }}
+      whileHover={{ x: 3 }}
       transition={{ type: "spring", stiffness: 300, damping: 25 }}
       className={styles.analysisItem}
     >

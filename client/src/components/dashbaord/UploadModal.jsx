@@ -33,7 +33,7 @@ export default function UploadModal({ onClose, onSuccess }) {
         </div>
 
         {error && (
-          <div style={{ color: "#b91c1c", background: "#fef2f2", padding: "0.5rem", borderRadius: "6px", marginBottom: "1rem", fontSize: "0.85rem" }}>
+          <div style={{ color: "#f87171", background: "rgba(239, 68, 68, 0.1)", padding: "0.5rem", borderRadius: "6px", marginBottom: "1rem", fontSize: "0.85rem", border: "1px solid rgba(239, 68, 68, 0.2)" }}>
             {error}
           </div>
         )}
@@ -42,8 +42,8 @@ export default function UploadModal({ onClose, onSuccess }) {
         <div
           className={styles.dropzone}
           style={{
-            borderColor: dragging ? "#6366f1" : "#cbd5e1",
-            background: dragging ? "rgba(99,102,241,0.04)" : "#f8fafc",
+            borderColor: dragging ? "#818cf8" : undefined,
+            background: dragging ? "rgba(99, 102, 241, 0.05)" : undefined,
             pointerEvents: uploading ? "none" : "auto",
             opacity: uploading ? 0.6 : 1
           }}

@@ -1,22 +1,24 @@
 import React from "react";
 import styles from "./Dashboard.module.css";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 function getScoreColor(score) {
-  if (score === null) return "#d1d5db";
-  if (score >= 85) return "#16a34a";
-  if (score >= 65) return "#d97706";
-  return "#dc2626";
+  if (score === null) return "#64748b";
+  if (score >= 85) return "#4ade80";
+  if (score >= 65) return "#fbbf24";
+  if (score >= 40) return "#fb923c";
+  return "#f87171";
 }
 
 export default function ResumeCard({ resume, onActionClick }) {
-  const { name, role, uploadedAt, size, atsScore, status } = resume;
+  const navigate = useNavigate();
+  const { name, role, uploadedAt, size, atsScore, status, id } = resume;
   const scoreColor = getScoreColor(atsScore);
   const pct = atsScore !== null ? atsScore : 0;
 
   return (
     <motion.div
-      whileHover={{ background: "#fafbff" }}
       className={styles.resumeRow}
     >
       {/* Name + role */}
@@ -62,11 +64,26 @@ export default function ResumeCard({ resume, onActionClick }) {
 
       {/* Actions */}
       <div className={styles.resumeActions}>
+        <button
+          className={styles.actionChip}
+          onClick={() => navigate(`/view-resume/${id}`)}
+          title="View resume"
+        >
+          View
+        </button>
+        <button
+          className={styles.actionChip}
+          onClick={() => navigate(`/edit-resume/${id}`)}
+          title="Edit resume"
+        >
+          Edit
+        </button>
         <button 
           className={styles.actionChip}
           onClick={() => onActionClick && onActionClick("ATS", resume)}
           disabled={status !== "analyzed"}
           style={{ opacity: status !== "analyzed" ? 0.5 : 1, cursor: status !== "analyzed" ? "not-allowed" : "pointer" }}
+          title="ATS insights"
         >
           ATS
         </button>
@@ -75,6 +92,7 @@ export default function ResumeCard({ resume, onActionClick }) {
           onClick={() => onActionClick && onActionClick("JD", resume)}
           disabled={status !== "analyzed"}
           style={{ opacity: status !== "analyzed" ? 0.5 : 1, cursor: status !== "analyzed" ? "not-allowed" : "pointer" }}
+          title="Match JD"
         >
           JD
         </button>
@@ -83,6 +101,7 @@ export default function ResumeCard({ resume, onActionClick }) {
           onClick={() => onActionClick && onActionClick("Cover", resume)}
           disabled={status !== "analyzed"}
           style={{ opacity: status !== "analyzed" ? 0.5 : 1, cursor: status !== "analyzed" ? "not-allowed" : "pointer" }}
+          title="Cover letter"
         >
           Cover
         </button>
@@ -90,3 +109,4 @@ export default function ResumeCard({ resume, onActionClick }) {
     </motion.div>
   );
 }
+

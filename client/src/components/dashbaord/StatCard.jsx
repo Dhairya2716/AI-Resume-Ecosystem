@@ -41,7 +41,7 @@ export default function StatCard({ label, value, change, accent = "lime", progre
 
   return (
     <motion.div
-      whileHover={{ y: -3, boxShadow: "0 8px 28px rgba(0,0,0,0.07)" }}
+      whileHover={{ y: -3 }}
       transition={{ type: "spring", stiffness: 300, damping: 20 }}
       className={`${styles.statCard} ${cfg.cardClass}`}
     >

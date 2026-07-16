@@ -15,18 +15,18 @@ export default function DetailedInsightsModal({ onClose, resume }) {
         <div style={{ padding: "1.5rem", maxHeight: "80vh", overflowY: "auto" }}>
           
           <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <h3 style={{ fontSize: "1.25rem", color: "#111827", marginBottom: "0.5rem" }}>ATS Match Score</h3>
-            <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "100px", height: "100px", borderRadius: "50%", background: resume.atsScore >= 75 ? "#ecfdf5" : resume.atsScore >= 50 ? "#fffbeb" : "#fef2f2", color: resume.atsScore >= 75 ? "#059669" : resume.atsScore >= 50 ? "#d97706" : "#dc2626", fontSize: "2rem", fontWeight: "700", border: `4px solid ${resume.atsScore >= 75 ? "#34d399" : resume.atsScore >= 50 ? "#fbbf24" : "#f87171"}` }}>
+            <h3 style={{ fontSize: "1.25rem", color: "#f8fafc", marginBottom: "0.5rem" }}>ATS Match Score</h3>
+            <div style={{ display: "inline-flex", alignItems: "center", justifyContent: "center", width: "100px", height: "100px", borderRadius: "50%", background: resume.atsScore >= 75 ? "rgba(52, 211, 153, 0.1)" : resume.atsScore >= 50 ? "rgba(251, 191, 36, 0.1)" : "rgba(248, 113, 113, 0.1)", color: resume.atsScore >= 75 ? "#34d399" : resume.atsScore >= 50 ? "#fbbf24" : "#f87171", fontSize: "2rem", fontWeight: "700", border: `4px solid ${resume.atsScore >= 75 ? "rgba(52, 211, 153, 0.3)" : resume.atsScore >= 50 ? "rgba(251, 191, 36, 0.3)" : "rgba(248, 113, 113, 0.3)"}` }}>
               {resume.atsScore}%
             </div>
           </div>
 
           {resume.strengths && resume.strengths.length > 0 && (
             <div style={{ marginBottom: "1.5rem" }}>
-              <h4 style={{ fontSize: "1rem", color: "#065f46", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <h4 style={{ fontSize: "1rem", color: "#4ade80", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <span style={{ fontSize: "1.2rem" }}>✓</span> Key Strengths
               </h4>
-              <ul style={{ paddingLeft: "1.25rem", margin: 0, color: "#4b5563", fontSize: "0.95rem" }}>
+              <ul style={{ paddingLeft: "1.25rem", margin: 0, color: "#cbd5e1", fontSize: "0.95rem" }}>
                 {resume.strengths.map((str, i) => (
                   <li key={i} style={{ marginBottom: "0.25rem" }}>{str}</li>
                 ))}
@@ -36,10 +36,10 @@ export default function DetailedInsightsModal({ onClose, resume }) {
 
           {resume.weaknesses && resume.weaknesses.length > 0 && (
             <div style={{ marginBottom: "1.5rem" }}>
-              <h4 style={{ fontSize: "1rem", color: "#991b1b", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <h4 style={{ fontSize: "1rem", color: "#f87171", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <span style={{ fontSize: "1.2rem" }}>✗</span> Weaknesses
               </h4>
-              <ul style={{ paddingLeft: "1.25rem", margin: 0, color: "#4b5563", fontSize: "0.95rem" }}>
+              <ul style={{ paddingLeft: "1.25rem", margin: 0, color: "#cbd5e1", fontSize: "0.95rem" }}>
                 {resume.weaknesses.map((weak, i) => (
                   <li key={i} style={{ marginBottom: "0.25rem" }}>{weak}</li>
                 ))}
@@ -49,10 +49,10 @@ export default function DetailedInsightsModal({ onClose, resume }) {
 
           {resume.aiSuggestions && resume.aiSuggestions.length > 0 && (
             <div>
-              <h4 style={{ fontSize: "1rem", color: "#1d4ed8", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <h4 style={{ fontSize: "1rem", color: "#60a5fa", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                 <span style={{ fontSize: "1.2rem" }}>💡</span> Actionable Suggestions
               </h4>
-              <ul style={{ paddingLeft: "1.25rem", margin: 0, color: "#4b5563", fontSize: "0.95rem" }}>
+              <ul style={{ paddingLeft: "1.25rem", margin: 0, color: "#cbd5e1", fontSize: "0.95rem" }}>
                 {resume.aiSuggestions.map((sug, i) => (
                   <li key={i} style={{ marginBottom: "0.25rem" }}>{sug}</li>
                 ))}
