@@ -2,6 +2,9 @@ import { useEffect, useState } from "react"
 import { Link, useNavigate, useParams } from "react-router-dom"
 import API from "../../services/api"
 import styles from "./resume.module.css"
+import DashboardSidebar from "../../components/dashbaord/DashboardSidebar"
+import dashStyles from "../../components/dashbaord/Dashboard.module.css"
+import { useAuth } from "../../context/AuthContext"
 
 const blankEdu  = () => ({ institution: "", degree: "", fieldOfStudy: "", startDate: "", endDate: "", description: "" })
 const blankExp  = () => ({ company: "", position: "", startDate: "", endDate: "", description: "" })
@@ -9,7 +12,7 @@ const blankProj = () => ({ title: "", techStack: "", description: "", githubLink
 const blankCert = () => ({ name: "", organization: "", issueDate: "" })
 
 export default function EditResume() {
-
+    const { user }  = useAuth()
     const { id }    = useParams()
     const navigate  = useNavigate()
 
@@ -93,31 +96,22 @@ export default function EditResume() {
     }
 
     if (loading) return (
-        <div className={styles.pageRoot}>
-            <div className={styles.loadingWrap} style={{ minHeight: "100vh" }}>
-                <span className={styles.spinner} /> Loading resume...
+        <div className={dashStyles.dashRoot}>
+            <DashboardSidebar user={user} activeNav="my-resume" />
+            <div className={dashStyles.pageBody}>
+                <div className={styles.loadingWrap} style={{ minHeight: "100vh" }}>
+                    <span className={styles.spinner} /> Loading resume...
+                </div>
             </div>
         </div>
     )
 
     return (
-        <div className={styles.pageRoot}>
+        <div className={dashStyles.dashRoot}>
+            <DashboardSidebar user={user} activeNav="my-resume" />
 
-            {/* Nav */}
-            <nav className={styles.topNav}>
-                <Link to="/dashboard" className={styles.navLogo}>
-                    Resume<span className={styles.navLogoAccent}>AI</span>
-                </Link>
-                <div className={styles.navLinks}>
-                    <Link to="/dashboard"  className={styles.navLink}>Dashboard</Link>
-                    <Link to="/my-resume"  className={styles.navLink}>My Resumes</Link>
-                    <span className={`${styles.navLink} ${styles.navLinkActive}`} style={{ cursor:"default" }}>
-                        Edit: {title || "Resume"}
-                    </span>
-                </div>
-            </nav>
-
-            <div className={styles.pageContent}>
+            <div className={dashStyles.pageBody}>
+                <div style={{ maxWidth: 900, width: "100%", margin: "0 auto", paddingBottom: "3rem" }}>
 
                 {/* Header */}
                 <div className={styles.pageHeader}>
@@ -358,6 +352,7 @@ export default function EditResume() {
                     </div>
 
                 </form>
+                </div>
             </div>
         </div>
     )

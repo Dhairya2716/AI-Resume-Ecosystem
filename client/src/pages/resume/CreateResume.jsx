@@ -1,7 +1,10 @@
-import { useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react"
+import { Link, useNavigate, useSearchParams } from "react-router-dom"
 import API from "../../services/api"
 import styles from "./resume.module.css"
+import DashboardSidebar from "../../components/dashbaord/DashboardSidebar"
+import dashStyles from "../../components/dashbaord/Dashboard.module.css"
+import { useAuth } from "../../context/AuthContext"
 
 // ── Blank section templates ───────────────────────────────────
 const blankEdu = () => ({ institution: "", degree: "", fieldOfStudy: "", startDate: "", endDate: "", description: "" })
@@ -9,14 +12,20 @@ const blankExp = () => ({ company: "", position: "", startDate: "", endDate: "",
 const blankProj = () => ({ title: "", techStack: "", description: "", githubLink: "", liveLink: "" })
 const blankCert = () => ({ name: "", organization: "", issueDate: "" })
 
-export default function CreateResume() {
+const VALID_TEMPLATES = ["modern", "classic", "minimal"]
 
+export default function CreateResume() {
+    const { user } = useAuth()
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
 
     // ── Core fields ───────────────────────────────────────────
     const [title,   setTitle]   = useState("")
     const [summary, setSummary] = useState("")
-    const [template, setTemplate] = useState("modern")
+    const [template, setTemplate] = useState(() => {
+        const urlTemplate = searchParams.get("template")
+        return VALID_TEMPLATES.includes(urlTemplate) ? urlTemplate : "modern"
+    })
 
     // ── Personal Info ─────────────────────────────────────────
     const [personal, setPersonal] = useState({
@@ -78,21 +87,11 @@ export default function CreateResume() {
     }
 
     return (
-        <div className={styles.pageRoot}>
+        <div className={dashStyles.dashRoot}>
+            <DashboardSidebar user={user} activeNav="create-resume" />
 
-            {/* Nav */}
-            <nav className={styles.topNav}>
-                <Link to="/dashboard" className={styles.navLogo}>
-                    Resume<span className={styles.navLogoAccent}>AI</span>
-                </Link>
-                <div className={styles.navLinks}>
-                    <Link to="/dashboard"  className={styles.navLink}>Dashboard</Link>
-                    <Link to="/my-resume"  className={styles.navLink}>My Resumes</Link>
-                    <Link to="/create-resume" className={`${styles.navLink} ${styles.navLinkActive}`}>+ Create</Link>
-                </div>
-            </nav>
-
-            <div className={styles.pageContent}>
+            <div className={dashStyles.pageBody}>
+                <div style={{ maxWidth: 900, width: "100%", margin: "0 auto", paddingBottom: "3rem" }}>
 
                 {/* Header */}
                 <div className={styles.pageHeader}>
@@ -394,6 +393,7 @@ export default function CreateResume() {
                     </div>
 
                 </form>
+                </div>
             </div>
         </div>
     )
