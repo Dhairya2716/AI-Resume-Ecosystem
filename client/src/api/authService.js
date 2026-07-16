@@ -19,3 +19,8 @@ export const getProfile = async () => {
     const res = await API.get("/auth/profile")
     return res.data
 }
+
+export const updateProfile = async (formData) => {
+    const res = await API.put("/auth/profile", formData)
+    return res.data
+}

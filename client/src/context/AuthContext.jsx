@@ -82,8 +82,13 @@ export function AuthProvider({ children }) {
     /* ── Clear error helper ── */
     const clearError = useCallback(() => setError(null), [])
 
+    /* ── Expose updating user object directly ── */
+    const updateUser = useCallback((updatedUserData) => {
+        setUser(updatedUserData)
+    }, [])
+
     return (
-        <AuthContext.Provider value={{ user, loading, error, register, login, logout, clearError }}>
+        <AuthContext.Provider value={{ user, loading, error, register, login, logout, clearError, updateUser }}>
             {children}
         </AuthContext.Provider>
     )
