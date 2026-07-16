@@ -31,9 +31,9 @@ Resume:
 ${resumeText}
 `;
 
-        // Wrap AI call in a Promise.race for a 20-second timeout
+        // Wrap AI call in a Promise.race for a 60-second timeout
         const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Gemini API timeout (20s)")), 20000)
+            setTimeout(() => reject(new Error("Gemini API timeout (60s)")), 60000)
         );
 
         const aiCallPromise = model.generateContent(prompt);
@@ -98,7 +98,7 @@ ${resumeText}
 `;
 
         const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Gemini API timeout (20s)")), 20000)
+            setTimeout(() => reject(new Error("Gemini API timeout (60s)")), 60000)
         );
 
         const aiCallPromise = model.generateContent(prompt);
@@ -156,7 +156,7 @@ ${resumeText}
 `;
 
         const timeoutPromise = new Promise((_, reject) =>
-            setTimeout(() => reject(new Error("Gemini API timeout (20s)")), 20000)
+            setTimeout(() => reject(new Error("Gemini API timeout (60s)")), 60000)
         );
 
         const aiCallPromise = model.generateContent(prompt);

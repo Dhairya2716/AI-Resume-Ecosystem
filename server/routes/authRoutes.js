@@ -6,7 +6,8 @@ const {
     registerUser,
     loginUser,
     logoutUser,
-    getProfile
+    getProfile,
+    updateProfile
 } = require("../controllers/authController")
 
 const protect = require("../middleware/authMiddleware")
@@ -18,6 +19,7 @@ router.post("/register", registerUser)
 router.post("/login",    loginUser)
 router.post("/logout",   logoutUser)
 router.get( "/profile",  protect, getProfile)   // session restore
+router.put( "/profile",  protect, updateProfile) // update profile
 
 /* ─── Google OAuth ──────────────────────────────────────────────────── */
 router.get(

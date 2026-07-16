@@ -382,6 +382,46 @@ const generateCoverLetter = async (req, res, next) => {
     }
 }
 
+const getCoverLetters = async (req, res, next) => {
+    try {
+        const CoverLetter = require("../models/CoverLetter");
+        const coverLetters = await CoverLetter.find({ user: req.user.id })
+            .populate('resume', 'title')
+            .sort({ createdAt: -1 });
+
+        res.status(200).json({
+            success: true,
+            coverLetters
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
+const deleteCoverLetter = async (req, res, next) => {
+    try {
+        const CoverLetter = require("../models/CoverLetter");
+        const coverLetter = await CoverLetter.findById(req.params.id);
+
+        if (!coverLetter) {
+            return res.status(404).json({ success: false, message: "Cover letter not found" });
+        }
+
+        if (coverLetter.user.toString() !== req.user.id) {
+            return res.status(403).json({ success: false, message: "Access Denied" });
+        }
+
+        await coverLetter.deleteOne();
+
+        res.status(200).json({
+            success: true,
+            message: "Cover letter deleted successfully"
+        });
+    } catch (err) {
+        next(err);
+    }
+}
+
 module.exports = {
     createResume,
     getSingleResume,
@@ -389,5 +429,7 @@ module.exports = {
     updateResume,
     deleteResume,
     matchResumeToJD,
-    generateCoverLetter
+    generateCoverLetter,
+    getCoverLetters,
+    deleteCoverLetter
 }

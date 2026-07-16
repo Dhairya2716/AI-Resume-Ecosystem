@@ -7,7 +7,9 @@ const {
     updateResume,
     deleteResume,
     matchResumeToJD,
-    generateCoverLetter
+    generateCoverLetter,
+    getCoverLetters,
+    deleteCoverLetter
 } = require("../controllers/resumeController")
 
 const protect = require("../middleware/authMiddleware")
@@ -45,6 +47,18 @@ router.post(
     "/:id/cover-letter",
     protect,
     generateCoverLetter
+)
+
+router.get(
+    "/cover-letters",
+    protect,
+    getCoverLetters
+)
+
+router.delete(
+    "/cover-letter/:id",
+    protect,
+    deleteCoverLetter
 )
 
 // ======================================

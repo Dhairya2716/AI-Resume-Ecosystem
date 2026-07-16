@@ -131,9 +131,55 @@ const getProfile = async (req, res) => {
     }
 }
 
+/* ─── Update Profile ───────────────────────────────────────────────────── */
+const updateProfile = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id);
+        if (!user) return res.status(404).json({ message: "User not found" });
+
+        const { name, email, currentPassword, newPassword } = req.body;
+
+        // Update basic info
+        if (name) user.name = name;
+        if (email) user.email = email;
+
+        // Update password if requested
+        if (newPassword) {
+            if (user.provider !== "local" || !user.password) {
+                return res.status(400).json({ message: "Cannot change password for OAuth accounts" });
+            }
+            if (!currentPassword) {
+                return res.status(400).json({ message: "Current password is required to set a new password" });
+            }
+            const isMatch = await bcrypt.compare(currentPassword, user.password);
+            if (!isMatch) {
+                return res.status(400).json({ message: "Incorrect current password" });
+            }
+            user.password = await bcrypt.hash(newPassword, 12);
+        }
+
+        const updatedUser = await user.save();
+
+        res.status(200).json({
+            message: "Profile updated successfully",
+            user: {
+                _id: updatedUser._id,
+                name: updatedUser.name,
+                email: updatedUser.email,
+                role: updatedUser.role,
+                avatar: updatedUser.avatar,
+                provider: updatedUser.provider
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
 module.exports = {
     registerUser,
     loginUser,
     logoutUser,
-    getProfile
+    getProfile,
+    updateProfile
 }
