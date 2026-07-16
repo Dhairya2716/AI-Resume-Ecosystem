@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import AuthAnimation from "../components/ui/AuthAnimation";
 
 const BACKEND = "http://localhost:5000/api"
 
@@ -39,61 +40,53 @@ function LeftPanel() {
   });
   return (
     <div style={{
-      flex: 1, background: "#1a1207", position: "relative",
+      flex: 1, background: "var(--bg-root)", position: "relative",
       overflow: "hidden", display: "flex", flexDirection: "column",
       justifyContent: "space-between",
       padding: "clamp(1.5rem, 3vh, 2.5rem) clamp(1.5rem, 3vw, 2.5rem)",
-      minHeight: "100vh", minWidth: "420px",
+      minHeight: "100vh", minWidth: "420px", borderRight: "1px solid var(--border-subtle)"
     }}>
-      <div style={{ position: "absolute", inset: 0, pointerEvents: "none",
-        backgroundImage: `radial-gradient(ellipse 80% 60% at 20% 80%, rgba(180,120,40,0.15) 0%, transparent 60%),
-          radial-gradient(ellipse 60% 80% at 80% 20%, rgba(120,60,20,0.12) 0%, transparent 60%)`,
-      }} />
-      <svg style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }} viewBox="0 0 500 800" preserveAspectRatio="xMidYMid slice">
-        <circle cx="420" cy="120" r="180" fill="none" stroke="rgba(210,160,60,0.09)" strokeWidth="1" />
-        <circle cx="420" cy="120" r="110" fill="none" stroke="rgba(210,160,60,0.06)" strokeWidth="0.5" />
-        <circle cx="80"  cy="700" r="200" fill="none" stroke="rgba(210,160,60,0.07)" strokeWidth="1" />
-        <line x1="350" y1="0" x2="200" y2="800" stroke="rgba(210,160,60,0.04)" strokeWidth="0.5" />
-        <polygon points="400,620 445,710 355,710" fill="none" stroke="rgba(210,160,60,0.07)" strokeWidth="0.5" />
-      </svg>
+      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+        <AuthAnimation />
+      </div>
+      <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "linear-gradient(180deg, transparent 0%, var(--bg-root) 100%)", pointerEvents: "none" }} />
 
       {/* Logo */}
-      <div style={{ position: "relative", zIndex: 1, ...t(0) }}>
+      <div style={{ position: "relative", zIndex: 2, ...t(0) }}>
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{ width: 34, height: 34, borderRadius: 7, background: "linear-gradient(135deg, #d4a044 0%, #a06820 100%)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: "#fff", fontWeight: 700, fontFamily: "Georgia, serif", flexShrink: 0 }}>R</div>
-          <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "1.05rem", color: "#f0e6cc", letterSpacing: "0.02em" }}>
-            Resume<span style={{ color: "#d4a044" }}>Pilot</span>
+          <div style={{ width: 34, height: 34, borderRadius: 8, background: "var(--accent-gradient)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 16, color: "#fff", fontWeight: 700, fontFamily: "var(--font-display)", flexShrink: 0, boxShadow: "var(--glow-purple)" }}>R</div>
+          <div style={{ fontFamily: "var(--font-sans)", fontSize: "1.2rem", fontWeight: 700, color: "var(--text-primary)", letterSpacing: "-0.02em" }}>
+            Resume<span style={{ color: "var(--accent-purple)" }}>AI</span>
           </div>
         </div>
       </div>
 
       {/* Hero */}
-      <div style={{ position: "relative", zIndex: 1, ...t(0.15) }}>
-        <div style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontSize: "clamp(1.6rem, 3.2vw, 2.6rem)", fontWeight: 400, color: "#f0e6cc", lineHeight: 1.2, marginBottom: "clamp(0.6rem, 1.5vh, 1rem)", letterSpacing: "-0.01em" }}>
-          Craft your<br />
-          <span style={{ fontStyle: "italic", color: "#d4a044" }}>perfect</span> résumé<br />
-          in minutes.
+      <div style={{ position: "relative", zIndex: 2, ...t(0.15) }}>
+        <div style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.8rem, 3.5vw, 3rem)", fontWeight: 400, color: "var(--text-primary)", lineHeight: 1.1, marginBottom: "clamp(0.6rem, 1.5vh, 1rem)", letterSpacing: "-0.02em" }}>
+          Shape every part<br />
+          of your <span style={{ fontStyle: "italic", background: "var(--accent-gradient)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>story</span>.
         </div>
-        <p style={{ fontFamily: "Georgia, serif", fontSize: "clamp(0.8rem, 1.2vw, 0.95rem)", color: "rgba(240,230,204,0.5)", lineHeight: 1.65, maxWidth: 300, margin: 0 }}>
-          AI-powered suggestions, beautiful templates, and real-time preview — everything you need to land your dream role.
+        <p style={{ fontFamily: "var(--font-sans)", fontSize: "clamp(0.9rem, 1.2vw, 1rem)", color: "var(--text-secondary)", lineHeight: 1.6, maxWidth: 340, margin: 0 }}>
+          Intelligent tools to build a resume that makes your experience impossible to overlook.
         </p>
-        <div style={{ width: 40, height: 1, background: "#d4a044", margin: "clamp(0.8rem,2vh,1.5rem) 0", opacity: 0.45 }} />
+        <div style={{ width: 40, height: 2, background: "var(--accent-purple)", margin: "clamp(1.2rem,3vh,2rem) 0", opacity: 0.8, borderRadius: "2px", boxShadow: "var(--glow-purple)" }} />
         <div style={{ display: "flex", gap: "clamp(1.2rem, 3vw, 2.2rem)" }}>
           {STATS.map((s, i) => (
             <div key={i} style={{ ...t(0.3 + i * 0.1) }}>
-              <div style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.1rem,2vw,1.4rem)", fontWeight: 400, color: "#d4a044", lineHeight: 1 }}>
+              <div style={{ fontFamily: "var(--font-sans)", fontSize: "clamp(1.2rem,2vw,1.6rem)", fontWeight: 700, color: "var(--text-primary)", lineHeight: 1 }}>
                 <AnimatedNumber target={s.value} />{s.suffix}
               </div>
-              <div style={{ fontFamily: "Georgia, serif", fontSize: "0.65rem", color: "rgba(240,230,204,0.4)", marginTop: 3, letterSpacing: "0.08em", textTransform: "uppercase" }}>{s.label}</div>
+              <div style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "var(--text-tertiary)", marginTop: 6, fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase" }}>{s.label}</div>
             </div>
           ))}
         </div>
       </div>
 
       {/* Quote */}
-      <div style={{ position: "relative", zIndex: 1, ...t(0.6), borderLeft: "2px solid rgba(212,160,68,0.3)", paddingLeft: "0.9rem" }}>
-        <p style={{ fontFamily: "Georgia, serif", fontStyle: "italic", fontSize: "0.8rem", color: "rgba(240,230,204,0.32)", margin: 0, lineHeight: 1.6 }}>
-          "The résumé is your first impression — make it extraordinary."
+      <div style={{ position: "relative", zIndex: 2, ...t(0.6), borderLeft: "3px solid var(--accent-purple)", paddingLeft: "1.2rem", background: "linear-gradient(90deg, rgba(139, 92, 246, 0.1) 0%, transparent 100%)", padding: "1rem", borderRadius: "0 12px 12px 0" }}>
+        <p style={{ fontFamily: "var(--font-sans)", fontStyle: "italic", fontSize: "0.9rem", color: "var(--text-secondary)", margin: 0, lineHeight: 1.6 }}>
+          "The most intelligent workspace to accelerate your career."
         </p>
       </div>
     </div>
@@ -119,24 +112,25 @@ function GithubIcon() {
   );
 }
 
-/* ─── Social OAuth button ─────────────────────────────────────────────── */
 function SocialBtn({ icon, label, onClick, disabled }) {
   const [hover, setHover] = useState(false);
   return (
     <button
+      type="button"
       id={`oauth-btn-${label.toLowerCase().replace(/\s+/g, "-")}`}
       onClick={onClick}
       disabled={disabled}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        width: "100%", padding: "0.7rem 1rem",
-        background: hover ? "#f0ebe0" : "#fff",
-        border: "1.5px solid #e0d8c8", borderRadius: 7, cursor: disabled ? "wait" : "pointer",
-        display: "flex", alignItems: "center", justifyContent: "center", gap: 9,
-        fontSize: "0.85rem", color: "#1a1207", fontFamily: "Georgia, serif",
-        transition: "background 0.18s", marginBottom: "0.7rem",
+        width: "100%", padding: "0.8rem 1rem",
+        background: hover ? "var(--bg-hover)" : "var(--bg-surface)",
+        border: "1px solid var(--border-default)", borderRadius: "10px", cursor: disabled ? "wait" : "pointer",
+        display: "flex", alignItems: "center", justifyContent: "center", gap: 12,
+        fontSize: "0.9rem", color: "var(--text-primary)", fontWeight: 500, fontFamily: "var(--font-sans)",
+        transition: "all 0.2s", marginBottom: "0.8rem",
         opacity: disabled ? 0.6 : 1,
+        backdropFilter: "blur(10px)",
       }}
     >
       {icon}<span>{label}</span>
@@ -146,10 +140,10 @@ function SocialBtn({ icon, label, onClick, disabled }) {
 
 function Divider() {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "1rem 0" }}>
-      <div style={{ flex: 1, height: 1, background: "#e0d8c8" }} />
-      <span style={{ fontFamily: "Georgia, serif", fontSize: "0.75rem", color: "#b8a88a", letterSpacing: "0.05em" }}>or</span>
-      <div style={{ flex: 1, height: 1, background: "#e0d8c8" }} />
+    <div style={{ display: "flex", alignItems: "center", gap: 10, margin: "1.5rem 0" }}>
+      <div style={{ flex: 1, height: 1, background: "var(--border-subtle)" }} />
+      <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: "var(--text-tertiary)", letterSpacing: "0.05em", textTransform: "uppercase" }}>or</span>
+      <div style={{ flex: 1, height: 1, background: "var(--border-subtle)" }} />
     </div>
   );
 }
@@ -157,21 +151,21 @@ function Divider() {
 function Field({ label, id, type = "text", placeholder, value, onChange, icon }) {
   const [focused, setFocused] = useState(false);
   return (
-    <div style={{ marginBottom: "clamp(0.8rem, 1.5vh, 1.2rem)" }}>
-      <label htmlFor={id} style={{ display: "block", marginBottom: "0.35rem", fontFamily: "Georgia, serif", fontSize: "0.7rem", color: "#4a3f2f", letterSpacing: "0.07em", textTransform: "uppercase" }}>{label}</label>
+    <div style={{ marginBottom: "clamp(1rem, 2vh, 1.5rem)" }}>
+      <label htmlFor={id} style={{ display: "block", marginBottom: "0.5rem", fontFamily: "var(--font-sans)", fontSize: "0.8rem", fontWeight: 600, color: "var(--text-secondary)", letterSpacing: "0.05em", textTransform: "uppercase" }}>{label}</label>
       <div style={{ position: "relative" }}>
-        {icon && <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: focused ? "#8b6914" : "#b8a88a", fontSize: 13, transition: "color 0.2s" }}>{icon}</span>}
+        {icon && <span style={{ position: "absolute", left: 16, top: "50%", transform: "translateY(-50%)", color: focused ? "var(--accent-purple)" : "var(--text-tertiary)", fontSize: 16, transition: "color 0.2s" }}>{icon}</span>}
         <input
           id={id} type={type} value={value} onChange={onChange} placeholder={placeholder}
           onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}
           style={{
             width: "100%", boxSizing: "border-box",
-            padding: icon ? "0.65rem 1rem 0.65rem 2.5rem" : "0.65rem 1rem",
-            background: focused ? "#fff" : "#faf7f2",
-            border: `1.5px solid ${focused ? "#8b6914" : "#e0d8c8"}`,
-            borderRadius: 7, fontSize: "0.88rem", color: "#1a1207", outline: "none",
-            fontFamily: "Georgia, serif", transition: "all 0.2s",
-            boxShadow: focused ? "0 0 0 3px rgba(139,105,20,0.1)" : "none",
+            padding: icon ? "0.8rem 1rem 0.8rem 2.8rem" : "0.8rem 1rem",
+            background: "var(--bg-surface)",
+            border: `1px solid ${focused ? "var(--accent-purple)" : "var(--border-default)"}`,
+            borderRadius: "10px", fontSize: "0.95rem", color: "var(--text-primary)", outline: "none",
+            fontFamily: "var(--font-sans)", transition: "all 0.2s",
+            boxShadow: focused ? "var(--glow-purple)" : "none",
           }}
         />
       </div>
@@ -203,17 +197,19 @@ function SubmitBtn({ children, loading }) {
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        width: "100%", padding: "0.8rem",
-        background: loading ? "#c8a84a" : hover ? "#6b4e10" : "#1a1207",
-        border: "none", borderRadius: 7,
-        color: "#f5ead4", fontSize: "0.82rem", letterSpacing: "0.1em", textTransform: "uppercase",
-        fontFamily: "Georgia, serif", cursor: loading ? "wait" : "pointer",
-        transition: "background 0.2s",
-        display: "flex", alignItems: "center", justifyContent: "center", gap: 8,
+        width: "100%", padding: "0.9rem",
+        background: loading ? "var(--bg-elevated)" : "var(--accent-gradient)",
+        border: "none", borderRadius: "10px",
+        color: "#fff", fontSize: "0.95rem", fontWeight: 700, letterSpacing: "0.02em",
+        fontFamily: "var(--font-sans)", cursor: loading ? "wait" : "pointer",
+        transition: "all 0.2s",
+        display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
+        boxShadow: loading ? "none" : (hover ? "0 0 30px rgba(139, 92, 246, 0.5)" : "var(--glow-purple)"),
+        transform: hover && !loading ? "translateY(-1px)" : "none"
       }}
     >
       {loading
-        ? <><span style={{ width: 13, height: 13, border: "2px solid rgba(245,234,212,0.3)", borderTopColor: "#f5ead4", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />Processing…</>
+        ? <><span style={{ width: 16, height: 16, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} />Processing…</>
         : children}
     </button>
   );
@@ -247,9 +243,9 @@ function LoginForm({ onSwitch }) {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.4rem,2.5vw,1.8rem)", fontWeight: 400, color: "#1a1207", margin: "0 0 0.3rem", letterSpacing: "-0.01em" }}>Welcome back</h1>
-        <p style={{ fontFamily: "Georgia, serif", fontSize: "0.85rem", color: "#8a7a62", margin: 0 }}>Sign in to access your résumés</p>
+      <div style={{ marginBottom: "2rem" }}>
+        <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.6rem,2.8vw,2rem)", fontWeight: 400, color: "var(--text-primary)", margin: "0 0 0.5rem", letterSpacing: "-0.02em" }}>Welcome back</h1>
+        <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.9rem", color: "var(--text-secondary)", margin: 0 }}>Sign in to access your intelligent workspace.</p>
       </div>
 
       <SocialBtn icon={<GoogleIcon />} label="Continue with Google" onClick={() => handleOAuth("google")} disabled={loading} />
@@ -261,15 +257,15 @@ function LoginForm({ onSwitch }) {
       <Field id="login-email"    label="Email"    type="email"    placeholder="you@example.com" icon="✉" value={email} onChange={e => { setEmail(e.target.value); clearError(); }} />
       <Field id="login-password" label="Password" type="password" placeholder="••••••••"       icon="⚿" value={pass}  onChange={e => { setPass(e.target.value);  clearError(); }} />
 
-      <div style={{ textAlign: "right", marginBottom: "1.2rem", marginTop: "-0.4rem" }}>
-        <span style={{ fontFamily: "Georgia, serif", fontSize: "0.75rem", color: "#8b6914", cursor: "pointer" }}>Forgot password?</span>
+      <div style={{ textAlign: "right", marginBottom: "1.5rem", marginTop: "-0.5rem" }}>
+        <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.8rem", color: "var(--accent-cyan)", cursor: "pointer", transition: "color 0.2s" }}>Forgot password?</span>
       </div>
 
-      <SubmitBtn loading={loading}>Sign In →</SubmitBtn>
+      <SubmitBtn loading={loading}>Sign In</SubmitBtn>
 
-      <p style={{ textAlign: "center", fontFamily: "Georgia, serif", fontSize: "0.8rem", color: "#8a7a62", marginTop: "1.2rem", marginBottom: 0 }}>
+      <p style={{ textAlign: "center", fontFamily: "var(--font-sans)", fontSize: "0.9rem", color: "var(--text-secondary)", marginTop: "1.5rem", marginBottom: 0 }}>
         Don't have an account?{" "}
-        <span onClick={onSwitch} style={{ color: "#8b6914", cursor: "pointer", fontWeight: 600, textDecoration: "underline", textDecorationColor: "rgba(139,105,20,0.4)" }}>Sign up</span>
+        <span onClick={onSwitch} style={{ color: "var(--accent-purple)", cursor: "pointer", fontWeight: 600, transition: "color 0.2s" }}>Sign up</span>
       </p>
     </form>
   );
@@ -307,9 +303,9 @@ function RegisterForm({ onSwitch }) {
 
   return (
     <form onSubmit={handleSubmit} noValidate>
-      <div style={{ marginBottom: "1.5rem" }}>
-        <h1 style={{ fontFamily: "Georgia, serif", fontSize: "clamp(1.4rem,2.5vw,1.8rem)", fontWeight: 400, color: "#1a1207", margin: "0 0 0.3rem", letterSpacing: "-0.01em" }}>Create account</h1>
-        <p style={{ fontFamily: "Georgia, serif", fontSize: "0.85rem", color: "#8a7a62", margin: 0 }}>Start building your perfect résumé today</p>
+      <div style={{ marginBottom: "2rem" }}>
+        <h1 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(1.6rem,2.8vw,2rem)", fontWeight: 400, color: "var(--text-primary)", margin: "0 0 0.5rem", letterSpacing: "-0.02em" }}>Create account</h1>
+        <p style={{ fontFamily: "var(--font-sans)", fontSize: "0.9rem", color: "var(--text-secondary)", margin: 0 }}>Start building your perfect resume today.</p>
       </div>
 
       <SocialBtn icon={<GoogleIcon />} label="Continue with Google" onClick={() => handleOAuth("google")} disabled={loading} />
@@ -323,22 +319,22 @@ function RegisterForm({ onSwitch }) {
       <Field id="reg-password" label="Password"  type="password" placeholder="••••••••"    icon="⚿" value={pass}  onChange={e => { setPass(e.target.value);  clearError(); }} />
 
       {pass.length > 0 && (
-        <div style={{ marginBottom: "1rem", marginTop: "-0.5rem" }}>
-          <div style={{ display: "flex", gap: 3, marginBottom: 4 }}>
-            {[1, 2, 3].map(i => <div key={i} style={{ flex: 1, height: 3, borderRadius: 2, background: i <= strength ? sColor : "#e0d8c8", transition: "background 0.3s" }} />)}
+        <div style={{ marginBottom: "1.5rem", marginTop: "-0.5rem" }}>
+          <div style={{ display: "flex", gap: 4, marginBottom: 6 }}>
+            {[1, 2, 3].map(i => <div key={i} style={{ flex: 1, height: 4, borderRadius: 2, background: i <= strength ? sColor : "var(--border-default)", transition: "background 0.3s" }} />)}
           </div>
-          <span style={{ fontFamily: "Georgia,serif", fontSize: "0.65rem", color: sColor, textTransform: "uppercase", letterSpacing: "0.08em" }}>
+          <span style={{ fontFamily: "var(--font-sans)", fontSize: "0.75rem", color: sColor, fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.05em" }}>
             {["", "Weak", "Fair", "Strong"][strength]}
           </span>
         </div>
       )}
 
-      <div style={{ marginBottom: "1.2rem" }} />
-      <SubmitBtn loading={loading}>Create Account →</SubmitBtn>
+      <div style={{ marginBottom: "1.5rem" }} />
+      <SubmitBtn loading={loading}>Create Account</SubmitBtn>
 
-      <p style={{ textAlign: "center", fontFamily: "Georgia, serif", fontSize: "0.8rem", color: "#8a7a62", marginTop: "1.2rem", marginBottom: 0 }}>
+      <p style={{ textAlign: "center", fontFamily: "var(--font-sans)", fontSize: "0.9rem", color: "var(--text-secondary)", marginTop: "1.5rem", marginBottom: 0 }}>
         Already have an account?{" "}
-        <span onClick={onSwitch} style={{ color: "#8b6914", cursor: "pointer", fontWeight: 600, textDecoration: "underline", textDecorationColor: "rgba(139,105,20,0.4)" }}>Sign in</span>
+        <span onClick={onSwitch} style={{ color: "var(--accent-purple)", cursor: "pointer", fontWeight: 600, transition: "color 0.2s" }}>Sign in</span>
       </p>
     </form>
   );
@@ -372,40 +368,41 @@ export default function Register() {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
         @keyframes spin { to { transform: rotate(360deg); } }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html, body { margin: 0; padding: 0; }
         #root { min-height: 100vh; }
-        input::placeholder { color: #b8a88a; font-family: Georgia, serif; }
+        input::placeholder { color: var(--text-muted); font-family: var(--font-sans); }
         input:-webkit-autofill {
-          -webkit-box-shadow: 0 0 0 1000px #faf7f2 inset !important;
-          -webkit-text-fill-color: #1a1207 !important;
+          -webkit-box-shadow: 0 0 0 1000px #f0f4ff inset !important;
+          -webkit-text-fill-color: #0f172a !important;
         }
         button:active { transform: scale(0.98); }
       `}</style>
 
-      <div style={{ display: "flex", minHeight: "100vh", width: "100vw", overflow: "hidden", flexWrap: "wrap" }}>
+      <div style={{ display: "flex", minHeight: "100vh", width: "100vw", overflow: "hidden", flexWrap: "wrap", background: "#F0F4FF" }}>
         <LeftPanel />
 
         <div style={{
-          flex: 1.2, background: "#faf6ef",
+          flex: 1.2,
+          background: "linear-gradient(135deg, #F8FAFF 0%, #EEF2FF 50%, #F0F9FF 100%)",
           display: "flex", alignItems: "center", justifyContent: "center",
           padding: "clamp(1.5rem, 4vh, 3rem) clamp(2rem, 5vw, 4rem)",
           position: "relative", overflow: "auto", minHeight: "100vh", minWidth: "420px",
         }}>
-          <div style={{ position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: "radial-gradient(circle at 80% 10%, rgba(212,160,68,0.06) 0%, transparent 50%), radial-gradient(circle at 20% 90%, rgba(139,105,20,0.05) 0%, transparent 50%)" }} />
-          <div style={{ position: "absolute", left: 0, top: "15%", bottom: "15%", width: 1, background: "rgba(212,160,68,0.15)" }} />
+          <div style={{ position: "absolute", inset: 0, pointerEvents: "none", backgroundImage: "radial-gradient(circle at 80% 10%, rgba(99,102,241,0.12) 0%, transparent 50%), radial-gradient(circle at 20% 90%, rgba(8,145,178,0.1) 0%, transparent 50%)" }} />
 
           <div style={{
-            width: "100%", maxWidth: "clamp(320px, 90vw, 420px)",
-            padding: "clamp(1.5rem, 3vh, 2.5rem)",
-            backgroundColor: "rgba(255, 255, 255, 0.7)",
-            backdropFilter: "blur(10px)", borderRadius: "12px",
-            boxShadow: "0 8px 32px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(212, 160, 68, 0.1)",
+            width: "100%", maxWidth: "clamp(340px, 90vw, 460px)",
+            padding: "clamp(2rem, 4vh, 3rem)",
+            backgroundColor: "rgba(255,255,255,0.92)",
+            backdropFilter: "blur(24px) saturate(200%)", WebkitBackdropFilter: "blur(24px) saturate(200%)",
+            borderRadius: "24px",
+            border: "1.5px solid rgba(255,255,255,0.9)",
+            boxShadow: "0 24px 64px rgba(15,23,42,0.12), inset 0 1px 0 rgba(255,255,255,1)",
             opacity: fading ? 0 : 1,
             transform: fading ? "translateX(8px)" : "none",
-            transition: "all 0.22s ease", position: "relative", zIndex: 1,
+            transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)", position: "relative", zIndex: 1,
           }}>
             {page === "login"
               ? <LoginForm  onSwitch={() => switchPage("register")} />

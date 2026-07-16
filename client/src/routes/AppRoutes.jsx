@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 
 import Home         from "../pages/Home";
@@ -7,8 +7,8 @@ import Dashboard    from "../pages/Dashboard";
 import CreateResume from "../pages/resume/CreateResume";
 import MyResume     from "../pages/resume/MyResume";
 import EditResume   from "../pages/resume/EditResume";
+import ViewResume   from "../pages/resume/ViewResume";
 
-// Placeholder pages (will be built next)
 import ATSChecker   from "../pages/ATSChecker";
 import JDMatcher    from "../pages/JDMatcher";
 import CoverLetter  from "../pages/CoverLetter";
@@ -21,6 +21,7 @@ export default function AppRoutes() {
       {/* ── Public ──────────────────────────────────────────────── */}
       <Route path="/"         element={<Home />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/login"    element={<Navigate to="/register?mode=login" replace />} />
 
       {/* ── Protected ───────────────────────────────────────────── */}
       <Route path="/dashboard" element={
@@ -37,6 +38,10 @@ export default function AppRoutes() {
 
       <Route path="/edit-resume/:id" element={
         <ProtectedRoute><EditResume /></ProtectedRoute>
+      } />
+
+      <Route path="/view-resume/:id" element={
+        <ProtectedRoute><ViewResume /></ProtectedRoute>
       } />
 
       <Route path="/ats-checker" element={
