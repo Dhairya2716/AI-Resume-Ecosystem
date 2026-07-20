@@ -12,7 +12,7 @@ export default function SectionHeader({ title, subtitle, action, icon: Icon }) {
         alignItems: "flex-start",
         marginBottom: "2rem",
         paddingBottom: "1.5rem",
-        borderBottom: "1px solid rgba(15,23,42,0.07)",
+        borderBottom: "1px solid var(--border-subtle)",
       }}
     >
       <div style={{ display: "flex", alignItems: "flex-start", gap: "1rem" }}>
@@ -22,17 +22,17 @@ export default function SectionHeader({ title, subtitle, action, icon: Icon }) {
               width: "46px",
               height: "46px",
               borderRadius: "13px",
-              background: "rgba(99,102,241,0.08)",
-              border: "1.5px solid rgba(99,102,241,0.18)",
+              background: "rgba(99,102,241,0.12)",
+              border: "1px solid rgba(99,102,241,0.3)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               flexShrink: 0,
               marginTop: "2px",
-              boxShadow: "0 4px 12px rgba(99,102,241,0.1)",
+              boxShadow: "0 0 12px rgba(99,102,241,0.2)",
             }}
           >
-            <Icon size={22} style={{ color: "#6366f1" }} />
+            <Icon size={22} style={{ color: "var(--violet)" }} />
           </div>
         )}
         <div>
@@ -44,7 +44,7 @@ export default function SectionHeader({ title, subtitle, action, icon: Icon }) {
               letterSpacing: "-0.5px",
               lineHeight: 1.2,
               margin: 0,
-              color: "#0f172a",
+              color: "var(--text-primary)",
             }}
           >
             {title}
@@ -52,7 +52,7 @@ export default function SectionHeader({ title, subtitle, action, icon: Icon }) {
           {subtitle && (
             <p
               style={{
-                color: "#64748b",
+                color: "var(--text-secondary)",
                 marginTop: "0.4rem",
                 fontSize: "0.9rem",
                 lineHeight: 1.55,

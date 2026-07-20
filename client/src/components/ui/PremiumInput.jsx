@@ -4,21 +4,21 @@ const baseInputStyle = {
   width: "100%",
   padding: "0.75rem 1rem",
   borderRadius: "12px",
-  border: "1.5px solid rgba(15,23,42,0.1)",
-  background: "rgba(255,255,255,0.9)",
-  color: "#0f172a",
+  border: "1px solid var(--border-subtle)",
+  background: "rgba(0,0,0,0.2)",
+  color: "var(--text-primary)",
   fontSize: "0.9rem",
   fontFamily: "inherit",
   outline: "none",
   transition: "all 0.2s ease",
   appearance: "none",
-  boxShadow: "0 1px 4px rgba(15,23,42,0.05)",
+  boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
 };
 
 const focusStyle = {
-  borderColor: "rgba(99,102,241,0.5)",
-  boxShadow: "0 0 0 3px rgba(99,102,241,0.1), 0 2px 8px rgba(99,102,241,0.08)",
-  background: "#ffffff",
+  borderColor: "rgba(99,102,241,0.6)",
+  boxShadow: "0 0 0 3px rgba(99,102,241,0.15), 0 0 12px rgba(99,102,241,0.1)",
+  background: "rgba(0,0,0,0.3)",
 };
 
 export default function PremiumInput({
@@ -40,7 +40,7 @@ export default function PremiumInput({
     display: "block",
     fontSize: "11px",
     fontWeight: 700,
-    color: focused ? "#6366f1" : "#64748b",
+    color: focused ? "var(--violet)" : "var(--text-muted)",
     marginBottom: "0.5rem",
     textTransform: "uppercase",
     letterSpacing: "0.08em",
@@ -65,7 +65,7 @@ export default function PremiumInput({
           id={id}
           style={{
             ...inputStyle,
-            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236366f1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238b5cf6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")`,
             backgroundRepeat: "no-repeat",
             backgroundPosition: "right 0.75rem center",
             paddingRight: "2.5rem",
@@ -77,7 +77,7 @@ export default function PremiumInput({
             <option
               key={opt.value ?? i}
               value={opt.value}
-              style={{ background: "#fff", color: "#0f172a" }}
+              style={{ background: "var(--bg-surface)", color: "var(--text-primary)" }}
             >
               {opt.label}
             </option>
