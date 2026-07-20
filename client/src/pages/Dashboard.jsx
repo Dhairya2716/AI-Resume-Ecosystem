@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { getMyResumes, getCoverLetters } from "../api/resumeService";
 import { getATSReports } from "../api/atsService";
 import { UploadCloud, Plus, LayoutTemplate, UserIcon, Search, Target, FileSignature, Eye } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from "recharts";
 
 import DashboardSidebar from "../components/dashbaord/DashboardSidebar";
 import StatCard from "../components/dashbaord/StatCard";
@@ -232,6 +233,36 @@ export default function Dashboard() {
                   <StatCard {...s} />
                 </motion.div>
               ))}
+            </motion.div>
+
+            {/* ── Analytics Graph ─────────────────────────────────── */}
+            <motion.div variants={itemVariants} className={styles.statCard} style={{ padding: "24px", minHeight: "340px" }}>
+              <div className={styles.sectionHead} style={{ marginBottom: "24px" }}>
+                <span className={styles.sectionTitle}>Performance Analytics</span>
+                <span className={styles.statChangePill} style={{ background: "rgba(124, 58, 237, 0.15)", color: "#c084fc", border: "1px solid rgba(124, 58, 237, 0.3)" }}>ATS Score Trend</span>
+              </div>
+              <div style={{ width: "100%", height: 260 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={analyses.filter(a => a.type === "ATS Check").length >= 2 ? analyses.filter(a => a.type === "ATS Check").map(a => ({ name: a.date, score: a.score })).reverse() : [{ name: "Jan", score: 45 }, { name: "Feb", score: 55 }, { name: "Mar", score: 62 }, { name: "Apr", score: 75 }, { name: "May", score: 82 }, { name: "Jun", score: 94 }]} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                    <defs>
+                      <linearGradient id="colorScore" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4}/>
+                        <stop offset="95%" stopColor="#06b6d4" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                    <XAxis dataKey="name" stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} dy={10} />
+                    <YAxis stroke="#71717a" fontSize={12} tickLine={false} axisLine={false} tickFormatter={(value) => `${value}%`} />
+                    <RechartsTooltip 
+                      contentStyle={{ backgroundColor: 'rgba(10,10,10,0.9)', backdropFilter: 'blur(10px)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '12px', boxShadow: '0 8px 30px rgba(0,0,0,0.5)' }}
+                      itemStyle={{ color: '#fff', fontWeight: 'bold' }}
+                      labelStyle={{ color: '#a1a1aa', marginBottom: '4px' }}
+                      cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1 }}
+                    />
+                    <Area type="monotone" dataKey="score" stroke="url(#colorScore)" strokeWidth={3} fillOpacity={1} fill="url(#colorScore)" activeDot={{ r: 6, fill: '#8b5cf6', stroke: '#fff', strokeWidth: 2, boxShadow: '0 0 10px #8b5cf6' }} />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
             </motion.div>
 
             {/* ── Resume Table ─────────────────────────────────────── */}

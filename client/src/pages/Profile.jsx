@@ -87,9 +87,9 @@ export default function Profile() {
 
           {message.text && (
             <div style={{
-              background: message.type === "success" ? "#f0fdf4" : "#fef2f2",
-              color: message.type === "success" ? "#16a34a" : "#dc2626",
-              border: `1px solid ${message.type === "success" ? "#bbf7d0" : "#fecaca"}`,
+              background: message.type === "success" ? "rgba(16,185,129,0.15)" : "rgba(244,63,94,0.15)",
+              color: message.type === "success" ? "var(--success)" : "var(--danger)",
+              border: `1px solid ${message.type === "success" ? "rgba(16,185,129,0.3)" : "rgba(244,63,94,0.3)"}`,
               padding: "1rem", borderRadius: "8px", marginBottom: "2rem",
               display: "flex", justifyContent: "space-between", alignItems: "center"
             }}>
@@ -100,52 +100,56 @@ export default function Profile() {
 
           {/* Stats Cards */}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", marginBottom: "2rem" }}>
-            <div style={{ background: "white", padding: "1.5rem", borderRadius: "12px", border: "1px solid #e5e7eb", display: "flex", alignItems: "center", gap: "1rem" }}>
-              <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "#e0e7ff", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem" }}>📄</div>
+            <div style={{ background: "var(--glass-bg)", padding: "1.5rem", borderRadius: "12px", border: "1px solid var(--border-subtle)", display: "flex", alignItems: "center", gap: "1rem", boxShadow: "var(--glass-shadow)" }}>
+              <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(99,102,241,0.15)", border: "1px solid rgba(99,102,241,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", boxShadow: "0 0 10px rgba(99,102,241,0.2)" }}>📄</div>
               <div>
-                <div style={{ fontSize: "0.85rem", color: "#6b7280", fontWeight: "600", textTransform: "uppercase" }}>Total Resumes</div>
-                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#111827" }}>{stats.totalResumes}</div>
+                <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: "600", textTransform: "uppercase" }}>Total Resumes</div>
+                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "var(--text-primary)" }}>{stats.totalResumes}</div>
               </div>
             </div>
-            <div style={{ background: "white", padding: "1.5rem", borderRadius: "12px", border: "1px solid #e5e7eb", display: "flex", alignItems: "center", gap: "1rem" }}>
-              <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "#dcfce7", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem" }}>⭐</div>
+            <div style={{ background: "var(--glass-bg)", padding: "1.5rem", borderRadius: "12px", border: "1px solid var(--border-subtle)", display: "flex", alignItems: "center", gap: "1rem", boxShadow: "var(--glass-shadow)" }}>
+              <div style={{ width: "48px", height: "48px", borderRadius: "50%", background: "rgba(16,185,129,0.15)", border: "1px solid rgba(16,185,129,0.3)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.5rem", boxShadow: "0 0 10px rgba(16,185,129,0.2)" }}>⭐</div>
               <div>
-                <div style={{ fontSize: "0.85rem", color: "#6b7280", fontWeight: "600", textTransform: "uppercase" }}>Avg ATS Score</div>
-                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#111827" }}>{stats.avgAts}%</div>
+                <div style={{ fontSize: "0.85rem", color: "var(--text-muted)", fontWeight: "600", textTransform: "uppercase" }}>Avg ATS Score</div>
+                <div style={{ fontSize: "1.5rem", fontWeight: "bold", color: "var(--text-primary)" }}>{stats.avgAts}%</div>
               </div>
             </div>
           </div>
 
           {/* Profile Form */}
-          <div style={{ background: "white", padding: "2rem", borderRadius: "12px", border: "1px solid #e5e7eb", marginBottom: "2rem" }}>
-            <h3 style={{ fontSize: "1.25rem", fontWeight: "bold", color: "#111827", margin: "0 0 1.5rem 0", display: "flex", alignItems: "center", gap: "0.75rem" }}>
-              {user?.avatar ? <img src={user.avatar} alt="avatar" style={{ width: "32px", height: "32px", borderRadius: "50%" }} /> : <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "#4f46e5", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: "0.9rem" }}>{user?.name?.[0]}</div>}
+          <div style={{ background: "var(--glass-bg)", padding: "2rem", borderRadius: "12px", border: "1px solid var(--border-subtle)", marginBottom: "2rem", boxShadow: "var(--glass-shadow)", backdropFilter: "blur(12px)" }}>
+            <h3 style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--text-primary)", margin: "0 0 1.5rem 0", display: "flex", alignItems: "center", gap: "0.75rem" }}>
+              {user?.avatar ? <img src={user.avatar} alt="avatar" style={{ width: "32px", height: "32px", borderRadius: "50%", border: "1px solid rgba(255,255,255,0.2)" }} /> : <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: "var(--accent-gradient)", color: "white", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", fontSize: "0.9rem", boxShadow: "var(--glow-purple)" }}>{user?.name?.[0]}</div>}
               Basic Information
             </h3>
             <form onSubmit={handleUpdateProfile}>
               <div style={{ marginBottom: "1.5rem" }}>
-                <label style={{ display: "block", fontSize: "0.9rem", fontWeight: "500", color: "#374151", marginBottom: "0.5rem" }}>Full Name</label>
+                <label style={{ display: "block", fontSize: "0.9rem", fontWeight: "500", color: "var(--text-secondary)", marginBottom: "0.5rem" }}>Full Name</label>
                 <input 
                   type="text" 
                   value={name} 
                   onChange={(e) => setName(e.target.value)} 
                   required 
-                  style={{ width: "100%", padding: "0.75rem", borderRadius: "6px", border: "1px solid #d1d5db" }} 
+                  style={{ width: "100%", padding: "0.75rem", borderRadius: "6px", border: "1px solid var(--border-subtle)", background: "rgba(0,0,0,0.2)", color: "var(--text-primary)", outline: "none" }} 
+                  onFocus={(e) => e.target.style.borderColor = "rgba(99,102,241,0.5)"}
+                  onBlur={(e) => e.target.style.borderColor = "var(--border-subtle)"}
                 />
               </div>
               <div style={{ marginBottom: "1.5rem" }}>
-                <label style={{ display: "block", fontSize: "0.9rem", fontWeight: "500", color: "#374151", marginBottom: "0.5rem" }}>Email Address</label>
+                <label style={{ display: "block", fontSize: "0.9rem", fontWeight: "500", color: "var(--text-secondary)", marginBottom: "0.5rem" }}>Email Address</label>
                 <input 
                   type="email" 
                   value={email} 
                   onChange={(e) => setEmail(e.target.value)} 
                   required 
                   disabled={user?.provider !== "local"}
-                  style={{ width: "100%", padding: "0.75rem", borderRadius: "6px", border: "1px solid #d1d5db", background: user?.provider !== "local" ? "#f3f4f6" : "white" }} 
+                  style={{ width: "100%", padding: "0.75rem", borderRadius: "6px", border: "1px solid var(--border-subtle)", background: user?.provider !== "local" ? "rgba(255,255,255,0.02)" : "rgba(0,0,0,0.2)", color: user?.provider !== "local" ? "var(--text-muted)" : "var(--text-primary)", outline: "none" }} 
+                  onFocus={(e) => { if(user?.provider === "local") e.target.style.borderColor = "rgba(99,102,241,0.5)"; }}
+                  onBlur={(e) => { if(user?.provider === "local") e.target.style.borderColor = "var(--border-subtle)"; }}
                 />
-                {user?.provider !== "local" && <p style={{ fontSize: "0.8rem", color: "#6b7280", marginTop: "0.25rem" }}>Email cannot be changed for OAuth accounts.</p>}
+                {user?.provider !== "local" && <p style={{ fontSize: "0.8rem", color: "var(--text-muted)", marginTop: "0.25rem" }}>Email cannot be changed for OAuth accounts.</p>}
               </div>
-              <button type="submit" className={styles.accentBtn} disabled={loading} style={{ padding: "0.6rem 1.5rem" }}>
+              <button type="submit" className={styles.accentBtn} disabled={loading} style={{ padding: "0.6rem 1.5rem", background: "var(--accent-gradient)", border: "none", color: "white", borderRadius: "8px", fontWeight: "bold", cursor: "pointer", boxShadow: "var(--glow-purple)" }}>
                 {loading ? "Saving..." : "Save Changes"}
               </button>
             </form>
@@ -153,31 +157,35 @@ export default function Profile() {
 
           {/* Password Form */}
           {user?.provider === "local" && (
-            <div style={{ background: "white", padding: "2rem", borderRadius: "12px", border: "1px solid #e5e7eb" }}>
-              <h3 style={{ fontSize: "1.25rem", fontWeight: "bold", color: "#111827", margin: "0 0 1.5rem 0" }}>Change Password</h3>
+            <div style={{ background: "var(--glass-bg)", padding: "2rem", borderRadius: "12px", border: "1px solid var(--border-subtle)", boxShadow: "var(--glass-shadow)", backdropFilter: "blur(12px)" }}>
+              <h3 style={{ fontSize: "1.25rem", fontWeight: "bold", color: "var(--text-primary)", margin: "0 0 1.5rem 0" }}>Change Password</h3>
               <form onSubmit={handleChangePassword}>
                 <div style={{ marginBottom: "1.5rem" }}>
-                  <label style={{ display: "block", fontSize: "0.9rem", fontWeight: "500", color: "#374151", marginBottom: "0.5rem" }}>Current Password</label>
+                  <label style={{ display: "block", fontSize: "0.9rem", fontWeight: "500", color: "var(--text-secondary)", marginBottom: "0.5rem" }}>Current Password</label>
                   <input 
                     type="password" 
                     value={currentPassword} 
                     onChange={(e) => setCurrentPassword(e.target.value)} 
                     required 
-                    style={{ width: "100%", padding: "0.75rem", borderRadius: "6px", border: "1px solid #d1d5db" }} 
+                    style={{ width: "100%", padding: "0.75rem", borderRadius: "6px", border: "1px solid var(--border-subtle)", background: "rgba(0,0,0,0.2)", color: "var(--text-primary)", outline: "none" }} 
+                    onFocus={(e) => e.target.style.borderColor = "rgba(99,102,241,0.5)"}
+                    onBlur={(e) => e.target.style.borderColor = "var(--border-subtle)"}
                   />
                 </div>
                 <div style={{ marginBottom: "1.5rem" }}>
-                  <label style={{ display: "block", fontSize: "0.9rem", fontWeight: "500", color: "#374151", marginBottom: "0.5rem" }}>New Password</label>
+                  <label style={{ display: "block", fontSize: "0.9rem", fontWeight: "500", color: "var(--text-secondary)", marginBottom: "0.5rem" }}>New Password</label>
                   <input 
                     type="password" 
                     value={newPassword} 
                     onChange={(e) => setNewPassword(e.target.value)} 
                     required 
                     minLength="6"
-                    style={{ width: "100%", padding: "0.75rem", borderRadius: "6px", border: "1px solid #d1d5db" }} 
+                    style={{ width: "100%", padding: "0.75rem", borderRadius: "6px", border: "1px solid var(--border-subtle)", background: "rgba(0,0,0,0.2)", color: "var(--text-primary)", outline: "none" }} 
+                    onFocus={(e) => e.target.style.borderColor = "rgba(99,102,241,0.5)"}
+                    onBlur={(e) => e.target.style.borderColor = "var(--border-subtle)"}
                   />
                 </div>
-                <button type="submit" className={styles.accentBtn} disabled={loading} style={{ padding: "0.6rem 1.5rem" }}>
+                <button type="submit" className={styles.accentBtn} disabled={loading} style={{ padding: "0.6rem 1.5rem", background: "var(--accent-gradient)", border: "none", color: "white", borderRadius: "8px", fontWeight: "bold", cursor: "pointer", boxShadow: "var(--glow-purple)" }}>
                   {loading ? "Updating..." : "Update Password"}
                 </button>
               </form>

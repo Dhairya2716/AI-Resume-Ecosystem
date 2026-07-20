@@ -145,21 +145,21 @@ export default function CoverLetter() {
                   style={{ maxHeight: "calc(100vh - 200px)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
                   <div style={{
                     padding: "1rem 1.25rem",
-                    borderBottom: "1px solid rgba(15,23,42,0.06)",
-                    background: "rgba(248,250,255,0.6)",
+                    borderBottom: "1px solid var(--border-subtle)",
+                    background: "rgba(0,0,0,0.2)",
                     display: "flex", alignItems: "center", gap: "0.5rem",
                   }}>
-                    <Clock size={14} style={{ color: "#6366f1" }} />
-                    <span style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, fontSize: "11px", color: "#64748b", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+                    <Clock size={14} style={{ color: "var(--violet)" }} />
+                    <span style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontWeight: 700, fontSize: "11px", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
                       Recent Letters
                     </span>
-                    <span style={{ fontSize: "11px", color: "#94a3b8", marginLeft: "auto", fontFamily: "var(--font-mono)" }}>
+                    <span style={{ fontSize: "11px", color: "var(--text-muted)", marginLeft: "auto", fontFamily: "var(--font-mono)" }}>
                       {history.length}
                     </span>
                   </div>
                   <div style={{ overflowY: "auto", flex: 1 }}>
                     {history.length === 0 ? (
-                      <div style={{ padding: "2rem 1rem", textAlign: "center", color: "#94a3b8", fontSize: "0.85rem" }}>
+                      <div style={{ padding: "2rem 1rem", textAlign: "center", color: "var(--text-muted)", fontSize: "0.85rem" }}>
                         No history found.
                       </div>
                     ) : (
@@ -169,35 +169,35 @@ export default function CoverLetter() {
                           onClick={() => viewHistoryItem(item)}
                           style={{
                             padding: "0.85rem 1.25rem",
-                            borderBottom: "1px solid rgba(255, 255, 255, 0.04)",
+                            borderBottom: "1px solid var(--border-subtle)",
                             cursor: "pointer",
-                            background: activeItem?.id === item._id ? "rgba(99,102,241,0.07)" : "transparent",
-                            borderLeft: activeItem?.id === item._id ? "3px solid #6366f1" : "3px solid transparent",
+                            background: activeItem?.id === item._id ? "rgba(99,102,241,0.15)" : "transparent",
+                            borderLeft: activeItem?.id === item._id ? "3px solid var(--violet)" : "3px solid transparent",
                             transition: "all 0.2s ease",
                           }}
                           onMouseEnter={(e) => {
-                            if (activeItem?.id !== item._id) e.currentTarget.style.background = "rgba(99,102,241,0.04)";
+                            if (activeItem?.id !== item._id) e.currentTarget.style.background = "rgba(255,255,255,0.03)";
                           }}
                           onMouseLeave={(e) => {
                             if (activeItem?.id !== item._id) e.currentTarget.style.background = "transparent";
                           }}
                         >
-                          <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "#0f172a", marginBottom: "0.25rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                          <div style={{ fontSize: "0.85rem", fontWeight: 600, color: "var(--text-primary)", marginBottom: "0.25rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
                             {item.resume?.title || "Unknown Resume"}
                           </div>
-                          <div style={{ fontSize: "0.75rem", color: "#64748b", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                          <div style={{ fontSize: "0.75rem", color: "var(--text-secondary)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <span style={{ fontFamily: "'JetBrains Mono', monospace" }}>
                               {new Date(item.createdAt).toLocaleDateString()}
                             </span>
                             <button
                               onClick={(e) => { e.stopPropagation(); handleDelete(item._id); }}
                               style={{
-                                background: "none", border: "none", color: "#94a3b8",
+                                background: "none", border: "none", color: "var(--text-muted)",
                                 cursor: "pointer", padding: "2px", borderRadius: "4px",
                                 display: "flex", alignItems: "center", transition: "color 0.2s",
                               }}
-                              onMouseEnter={(e) => e.currentTarget.style.color = "#e11d48"}
-                              onMouseLeave={(e) => e.currentTarget.style.color = "#94a3b8"}
+                              onMouseEnter={(e) => e.currentTarget.style.color = "var(--danger)"}
+                              onMouseLeave={(e) => e.currentTarget.style.color = "var(--text-muted)"}
                             >
                               <Trash2 size={13} />
                             </button>
@@ -229,16 +229,16 @@ export default function CoverLetter() {
                         <div style={{
                           display: "flex", justifyContent: "space-between", alignItems: "flex-start",
                           marginBottom: "1.5rem", paddingBottom: "1rem",
-                          borderBottom: "1px solid rgba(15,23,42,0.07)",
+                          borderBottom: "1px solid var(--border-subtle)",
                         }}>
                           <div>
                             <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "0.25rem" }}>
-                              <Sparkles size={18} style={{ color: "#6366f1" }} />
-                              <h3 style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: "1.2rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>
+                              <Sparkles size={18} style={{ color: "var(--violet)" }} />
+                              <h3 style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: "1.2rem", fontWeight: 800, color: "var(--text-primary)", margin: 0 }}>
                                 Generated Cover Letter
                               </h3>
                             </div>
-                            <p style={{ color: "#64748b", margin: 0, fontSize: "0.82rem", fontFamily: "var(--font-mono)" }}>
+                            <p style={{ color: "var(--text-secondary)", margin: 0, fontSize: "0.82rem", fontFamily: "var(--font-mono)" }}>
                               Based on: {activeItem.resumeTitle} • {activeItem.date}
                             </p>
                           </div>
@@ -261,14 +261,14 @@ export default function CoverLetter() {
 
                         {/* Letter Content */}
                         <div style={{
-                          background: "rgba(248,250,255,0.8)",
-                          border: "1.5px solid rgba(15,23,42,0.07)",
+                          background: "rgba(0,0,0,0.2)",
+                          border: "1px solid var(--border-subtle)",
                           borderRadius: "12px", padding: "2rem",
-                          whiteSpace: "pre-wrap", color: "#1e293b",
-                          fontSize: "0.92rem", lineHeight: 1.8,
+                          whiteSpace: "pre-wrap", color: "var(--text-primary)",
+                          fontSize: "0.95rem", lineHeight: 1.8,
                           fontFamily: "'Georgia', 'Times New Roman', serif",
                           maxHeight: "60vh", overflowY: "auto",
-                          boxShadow: "inset 0 2px 8px rgba(15,23,42,0.04)",
+                          boxShadow: "inset 0 2px 8px rgba(0,0,0,0.3)",
                         }}>
                           {activeItem.text}
                         </div>
@@ -278,16 +278,16 @@ export default function CoverLetter() {
                     <motion.div key="form" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}>
                       <GlassCard hover={false} animate={false}>
                         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", marginBottom: "1.5rem" }}>
-                          <Sparkles size={20} style={{ color: "#6366f1" }} />
-                          <h3 style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: "1.2rem", fontWeight: 800, color: "#0f172a", margin: 0 }}>
+                          <Sparkles size={20} style={{ color: "var(--violet)" }} />
+                          <h3 style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: "1.2rem", fontWeight: 800, color: "var(--text-primary)", margin: 0 }}>
                             Create New Cover Letter
                           </h3>
                         </div>
 
                         {error && (
                           <div style={{
-                            background: "rgba(225,29,72,0.07)", color: "#e11d48",
-                            padding: "1rem", borderRadius: "12px", border: "1px solid rgba(225,29,72,0.18)",
+                            background: "rgba(244,63,94,0.15)", color: "var(--danger)",
+                            padding: "1rem", borderRadius: "12px", border: "1px solid rgba(244,63,94,0.3)",
                             marginBottom: "1.5rem", fontSize: "0.9rem",
                           }}>{error}</div>
                         )}
