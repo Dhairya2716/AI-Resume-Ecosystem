@@ -7,7 +7,7 @@ import AIOrb from "../components/ui/AIOrb";
 import AuroraBackground from "../components/ui/AuroraBackground";
 import CursorGlow from "../components/ui/CursorGlow";
 
-const BACKEND = "http://localhost:5000/api";
+const BACKEND = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 function AnimatedNumber({ target }) {
   const [val, setVal] = useState(0);
