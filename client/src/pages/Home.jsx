@@ -13,38 +13,7 @@ import ToolPreviews from "../components/ui/ToolPreviews";
 import FAQSection from "../components/ui/FAQSection";
 import PremiumFooter from "../components/ui/PremiumFooter";
 import MagneticButton from "../components/ui/MagneticButton";
-
-// Temporary Navbar component until we replace it with a premium sticky one
-function PremiumNav() {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-black/50 backdrop-blur-md border-b border-white/10' : 'bg-transparent'}`}>
-      <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <Link to="/" className="text-xl font-bold text-white flex items-center gap-2">
-          <div className="w-8 h-8 rounded bg-gradient-to-tr from-violet-600 to-cyan-500 flex items-center justify-center font-display text-white">
-            R
-          </div>
-          Resume<span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">AI</span>
-        </Link>
-        <div className="flex items-center gap-6">
-          <Link to="/register?mode=login" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
-            Sign in
-          </Link>
-          <Link to="/register?mode=register" className="text-sm font-medium bg-white text-black px-4 py-2 rounded-full hover:bg-zinc-200 transition-colors flex items-center gap-2">
-            Get started <ArrowRight size={14} />
-          </Link>
-        </div>
-      </div>
-    </nav>
-  );
-}
+import PremiumNav from "../components/ui/PremiumNav";
 
 export default function Home() {
   return (
