@@ -14,8 +14,8 @@ const generateToken = (id, role) => {
 const setCookieToken = (res, token) => {
     res.cookie("token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "lax",
+        secure: true, // MUST be true for sameSite: 'none'
+        sameSite: "none", // REQUIRED for cross-domain cookies (Vercel frontend -> Render backend)
         maxAge: 7 * 24 * 60 * 60 * 1000  // 7 days
     })
 }
@@ -109,7 +109,7 @@ const loginUser = async (req, res) => {
 
 /* ─── Logout ───────────────────────────────────────────────────────────── */
 const logoutUser = async (req, res) => {
-    res.clearCookie("token", { httpOnly: true, sameSite: "lax" })
+    res.clearCookie("token", { httpOnly: true, sameSite: "none", secure: true })
     res.status(200).json({ message: "Logout Successful" })
 }
 
