@@ -48,48 +48,52 @@ const handleOAuthUser = async ({ providerId, provider, email, name, avatar }, do
 }
 
 /* ─── Google Strategy ──────────────────────────────────────────────── */
-passport.use(new GoogleStrategy(
-    {
-        clientID:     process.env.GOOGLE_CLIENT_ID,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-        callbackURL:  "/api/auth/google/callback",
-    },
-    async (accessToken, refreshToken, profile, done) => {
-        const email  = profile.emails?.[0]?.value  || null
-        const avatar = profile.photos?.[0]?.value  || null
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+    passport.use(new GoogleStrategy(
+        {
+            clientID:     process.env.GOOGLE_CLIENT_ID,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+            callbackURL:  "/api/auth/google/callback",
+        },
+        async (accessToken, refreshToken, profile, done) => {
+            const email  = profile.emails?.[0]?.value  || null
+            const avatar = profile.photos?.[0]?.value  || null
 
-        await handleOAuthUser({
-            providerId: profile.id,
-            provider:   "google",
-            email,
-            name:   profile.displayName,
-            avatar,
-        }, done)
-    }
-))
+            await handleOAuthUser({
+                providerId: profile.id,
+                provider:   "google",
+                email,
+                name:   profile.displayName,
+                avatar,
+            }, done)
+        }
+    ))
+}
 
 /* ─── GitHub Strategy ──────────────────────────────────────────────── */
-passport.use(new GitHubStrategy(
-    {
-        clientID:     process.env.GITHUB_CLIENT_ID,
-        clientSecret: process.env.GITHUB_CLIENT_SECRET,
-        callbackURL:  "/api/auth/github/callback",
-        scope:        ["user:email"],
-    },
-    async (accessToken, refreshToken, profile, done) => {
-        // GitHub may return email in profile.emails or as null (private accounts)
-        const email  = profile.emails?.[0]?.value  || null
-        const avatar = profile.photos?.[0]?.value  || null
+if (process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET) {
+    passport.use(new GitHubStrategy(
+        {
+            clientID:     process.env.GITHUB_CLIENT_ID,
+            clientSecret: process.env.GITHUB_CLIENT_SECRET,
+            callbackURL:  "/api/auth/github/callback",
+            scope:        ["user:email"],
+        },
+        async (accessToken, refreshToken, profile, done) => {
+            // GitHub may return email in profile.emails or as null (private accounts)
+            const email  = profile.emails?.[0]?.value  || null
+            const avatar = profile.photos?.[0]?.value  || null
 
-        await handleOAuthUser({
-            providerId: String(profile.id),
-            provider:   "github",
-            email,
-            name:   profile.displayName || profile.username,
-            avatar,
-        }, done)
-    }
-))
+            await handleOAuthUser({
+                providerId: String(profile.id),
+                provider:   "github",
+                email,
+                name:   profile.displayName || profile.username,
+                avatar,
+            }, done)
+        }
+    ))
+}
 
 /* ─── JWT cookie injector ───────────────────────────────────────────
    Called in the OAuth callback route AFTER passport.authenticate()
