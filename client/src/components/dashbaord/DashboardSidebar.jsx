@@ -28,7 +28,7 @@ export default function DashboardSidebar({ activeNav = "dashboard", onUpload, us
     <div className={styles.navRight}>
       <button className={styles.navUploadBtn} onClick={onUpload} id="upload-resume-btn"><FileText size={15} /> New resume</button>
       <button onClick={logout} className={styles.logoutBtn} title="Log out"><LogOut size={16} /><span>Log out</span></button>
-      <div className={styles.navAvatar} title={user?.email ?? "user@example.com"}>{user?.name ? user.name.charAt(0).toUpperCase() : "A"}</div>
+      <div className={styles.navAvatar} title={user?.email ?? "user@example.com"} onClick={() => navigate("/profile")} style={{ cursor: "pointer" }}>{user?.name ? user.name.charAt(0).toUpperCase() : "A"}</div>
     </div>
   </nav>;
 }

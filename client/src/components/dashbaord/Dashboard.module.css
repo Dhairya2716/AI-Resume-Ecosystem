@@ -100,6 +100,20 @@
   box-shadow: 0 8px 24px rgba(99,102,241,0.5);
 }
 
+.logoutBtn {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(239, 68, 68, 0.1); color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 8px 14px; border-radius: 8px;
+  font-size: 13.5px; font-weight: 600; cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+.logoutBtn:hover {
+  background: rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
 .navAvatar {
   width: 36px; height: 36px; border-radius: 50%;
   background: var(--accent-gradient);
@@ -168,7 +182,7 @@
   border: 1px solid var(--glass-border);
   border-top: 1px solid rgba(255,255,255,0.12);
   border-radius: 16px; padding: 24px;
-  display: flex; align-items: flex-start; gap: 16px;
+  display: flex; flex-direction: column; gap: 16px;
   box-shadow: var(--glass-shadow);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -179,27 +193,48 @@
   border-color: rgba(99,102,241,0.3);
 }
 
-.statIcon {
-  width: 48px; height: 48px; border-radius: 12px;
-  background: rgba(99,102,241,0.15);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--violet); font-size: 24px;
-  border: 1px solid rgba(99,102,241,0.25);
-  box-shadow: 0 4px 12px rgba(99,102,241,0.2);
-}
-
-.statInfo {
-  display: flex; flex-direction: column; gap: 4px;
-}
-
-.statValue {
-  font-size: 1.75rem; font-weight: 800; color: var(--text-primary);
-  line-height: 1; letter-spacing: -0.02em;
+.statHeader {
+  display: flex; justify-content: space-between; align-items: flex-start; width: 100%;
 }
 
 .statLabel {
-  font-size: 13px; font-weight: 600; color: var(--text-secondary);
+  font-size: 14px; font-weight: 600; color: var(--text-secondary);
 }
+
+.statIconWrap {
+  width: 44px; height: 44px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+.statIconWrap_lime { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+.statIconWrap_blue { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.3); }
+.statIconWrap_pink { background: rgba(168,85,247,0.15); color: #c084fc; border: 1px solid rgba(168,85,247,0.3); }
+.statIconWrap_amber { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.3); }
+
+.statValue {
+  font-size: 2rem; font-weight: 800; color: var(--text-primary);
+  line-height: 1; letter-spacing: -0.02em;
+}
+
+.statProgressTrack {
+  width: 100%; height: 6px; background: rgba(255,255,255,0.05);
+  border-radius: 4px; overflow: hidden; margin-top: auto;
+}
+
+.statProgressFill { height: 100%; border-radius: 4px; }
+.statProgressFill_lime { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
+.statProgressFill_blue { background: #3b82f6; box-shadow: 0 0 10px #3b82f6; }
+.statProgressFill_pink { background: #a855f7; box-shadow: 0 0 10px #a855f7; }
+.statProgressFill_amber { background: #f59e0b; box-shadow: 0 0 10px #f59e0b; }
+
+.statChange {
+  font-size: 13px; color: var(--text-secondary); display: flex; align-items: center; gap: 8px; margin-top: 4px;
+}
+.statChangePill {
+  padding: 4px 8px; border-radius: 20px; font-size: 11px; font-weight: 700;
+}
+.statChangePill_up { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+.statChangePill_down { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+.statChangePill_neu { background: rgba(255,255,255,0.05); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.1); }
 
 /* ── Resume Section ─────────────────────────────────────────── */
 .resumeSection {
@@ -286,7 +321,7 @@
 }
 
 .resumeTableHeader {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 100px;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr 2.5fr;
   padding: 16px 24px;
   border-bottom: 1px solid var(--border-subtle);
   background: rgba(255,255,255,0.02);
@@ -302,87 +337,90 @@
 }
 
 .resumeRow {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 100px;
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr 2.5fr;
   padding: 20px 24px; align-items: center;
   border-bottom: 1px solid var(--border-subtle);
   transition: background 0.2s ease;
   cursor: pointer;
+  gap: 12px;
 }
 .resumeRow:last-child { border-bottom: none; }
 .resumeRow:hover {
   background: rgba(255,255,255,0.03);
 }
 
-.resumeTitleCol {
+.resumeRowName {
   display: flex; align-items: center; gap: 16px; min-width: 0;
 }
 
-.resumeIconWrapper {
+.resumeFileIcon {
   width: 40px; height: 40px; border-radius: 10px;
-  background: rgba(99,102,241,0.1);
   display: flex; align-items: center; justify-content: center;
-  color: var(--violet); flex-shrink: 0;
-  border: 1px solid rgba(99,102,241,0.2);
+  flex-shrink: 0; font-size: 18px;
 }
+.resumeFileIcon_analyzed { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+.resumeFileIcon_pending { background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); }
 
-.resumeName {
+.resumeNameText {
   font-size: 14px; font-weight: 700; color: var(--text-primary);
   margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-.resumeRole {
+.resumeRoleText {
   font-size: 13px; color: var(--text-secondary);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 
-.resumeScoreCol {
-  display: flex; align-items: center;
-}
-
-.scoreRingContainer {
-  display: flex; align-items: center; justify-content: center;
-}
-
-.resumeBadge {
-  display: inline-flex; align-items: center; padding: 4px 10px;
-  border-radius: 6px; font-size: 12px; font-weight: 700;
-}
-
-.resumeBadgeSuccess {
-  background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3);
-}
-.resumeBadgeWarning {
-  background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3);
-}
-.resumeBadgeDanger {
-  background: rgba(244,63,94,0.15); color: #f43f5e; border: 1px solid rgba(244,63,94,0.3);
-}
-
-.resumeDateCol {
-  display: flex; flex-direction: column; justify-content: center; gap: 4px;
-}
-
-.resumeDate {
+.resumeRowCell {
   font-size: 13px; font-weight: 600; color: var(--text-secondary);
 }
 
-.resumeActionsCol {
-  display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+.statusPill {
+  display: inline-flex; align-items: center; padding: 4px 10px;
+  border-radius: 6px; font-size: 12px; font-weight: 700; text-transform: capitalize;
+}
+.statusPill_analyzed { background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); }
+.statusPill_pending { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+
+.scoreBar {
+  display: flex; align-items: center; gap: 12px;
+}
+.scoreBarTrack {
+  flex: 1; height: 6px; background: rgba(255,255,255,0.1);
+  border-radius: 4px; overflow: hidden;
+}
+.scoreBarFill {
+  height: 100%; border-radius: 4px;
+}
+.scoreNum {
+  font-size: 13px; font-weight: 700; font-family: var(--font-mono); width: 35px; text-align: right;
 }
 
-.actionBtn {
-  width: 32px; height: 32px; border-radius: 8px;
-  border: 1px solid var(--border-subtle);
-  background: rgba(255,255,255,0.02);
+.resumeActions {
+  display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap;
+}
+
+.actionChip {
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
   color: var(--text-secondary);
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.2s;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.actionBtn:hover {
-  color: var(--text-primary);
-  background: rgba(255,255,255,0.1);
-  border-color: rgba(255,255,255,0.2);
+.actionChip:hover:not(:disabled) {
+  background: rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+  color: var(--indigo);
+}
+
+.actionChip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 
 /* ── Upload CTA Row ─────────────────────────────────────────── */
