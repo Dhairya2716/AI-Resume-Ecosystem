@@ -33,6 +33,46 @@ const createResume = async (req, res, next) => {
         if (req.body.projects) resumeData.projects = req.body.projects;
         if (req.body.certifications) resumeData.certifications = req.body.certifications;
 
+        // For manually-built resumes, synthesize resumeText from structured fields
+        // so ATS analysis, JD matching, and cover letter generation can work
+        if (!req.file) {
+            const parts = []
+            const pi = req.body.personalInfo
+            if (pi) {
+                const info = [pi.fullName, pi.email, pi.phone, pi.address, pi.linkedin, pi.github, pi.portfolio].filter(Boolean)
+                if (info.length) parts.push(info.join(" | "))
+            }
+            if (req.body.summary) parts.push("SUMMARY\n" + req.body.summary)
+            if (req.body.experience && req.body.experience.length) {
+                parts.push("EXPERIENCE\n" + req.body.experience.map(e =>
+                    [e.position, e.company, [e.startDate, e.endDate].filter(Boolean).join(" - "), e.description].filter(Boolean).join("\n")
+                ).join("\n\n"))
+            }
+            if (req.body.education && req.body.education.length) {
+                parts.push("EDUCATION\n" + req.body.education.map(e =>
+                    [e.degree, e.fieldOfStudy, e.institution, [e.startDate, e.endDate].filter(Boolean).join(" - "), e.description].filter(Boolean).join("\n")
+                ).join("\n\n"))
+            }
+            if (req.body.skills && req.body.skills.length) {
+                parts.push("SKILLS\n" + req.body.skills.join(", "))
+            }
+            if (req.body.projects && req.body.projects.length) {
+                parts.push("PROJECTS\n" + req.body.projects.map(p =>
+                    [p.title, p.techStack, p.description].filter(Boolean).join("\n")
+                ).join("\n\n"))
+            }
+            if (req.body.certifications && req.body.certifications.length) {
+                parts.push("CERTIFICATIONS\n" + req.body.certifications.map(c =>
+                    [c.name, c.organization, c.issueDate].filter(Boolean).join(" | ")
+                ).join("\n"))
+            }
+            const synthesized = parts.join("\n\n")
+            if (synthesized.trim().length > 0) {
+                resumeData.resumeText = synthesized
+            }
+            resumeData.analysisStatus = "Pending"
+        }
+
         let resume = await Resume.create(resumeData)
 
         // Perform AI Analysis if a file was uploaded
