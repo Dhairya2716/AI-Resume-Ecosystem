@@ -76,7 +76,7 @@ const atsReportSchema = new mongoose.Schema(
 atsReportSchema.index({ user: 1, resume: 1, createdAt: -1 })
 
 // Helper to compute grade from score
-atsReportSchema.pre("save", function (next) {
+atsReportSchema.pre("save", function () {
     const s = this.overallScore
     if (s >= 95)      this.grade = "A+"
     else if (s >= 85) this.grade = "A"
@@ -86,7 +86,6 @@ atsReportSchema.pre("save", function (next) {
     else if (s >= 50) this.grade = "C"
     else if (s >= 35) this.grade = "D"
     else              this.grade = "F"
-    next()
 })
 
 module.exports = mongoose.model("ATSReport", atsReportSchema)
