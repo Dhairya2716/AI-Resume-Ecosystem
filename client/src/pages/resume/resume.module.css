@@ -1,71 +1,15 @@
 /* ============================================================
    resume.module.css  —  Shared styles for Resume pages
-   Matches the Dashboard white/bento theme
+   Dark Glassmorphic theme — matches Dashboard design system
    ============================================================ */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ── Page Shell ──────────────────────────────────────────────── */
 .pageRoot {
   min-height: 100vh;
   background: transparent;
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
-  color: #0f172a;
+  color: var(--text-primary);
 }
-
-/* ── Top Nav (reused across resume pages) ───────────────────── */
-.topNav {
-  height: 64px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1.5px solid rgba(15,23,42,0.06);
-  display: flex;
-  align-items: center;
-  padding: 0 32px;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-
-.navLogo {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.5px;
-  text-decoration: none;
-  margin-right: 32px;
-  flex-shrink: 0;
-}
-
-.navLogoAccent { color: #6366f1; }
-
-.navLinks {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  flex: 1;
-}
-
-.navLink {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 14px;
-  border-radius: 10px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #64748b;
-  text-decoration: none;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-family: inherit;
-  transition: all 0.2s ease;
-}
-
-.navLink:hover { background: rgba(15,23,42,0.04); color: #0f172a; }
-.navLinkActive { background: rgba(99,102,241,0.08); color: #6366f1; font-weight: 700; }
 
 /* ── Page Content Wrapper ────────────────────────────────────── */
 .pageContent {
@@ -94,33 +38,34 @@
 .pageTitle {
   font-size: 26px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text-primary);
   letter-spacing: -0.5px;
   margin: 0;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 .pageSub {
   font-size: 14px;
   font-weight: 500;
-  color: #64748b;
+  color: var(--text-secondary);
   margin-top: 4px;
 }
 
 /* ── Card ────────────────────────────────────────────────────── */
 .card {
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1.5px solid rgba(255,255,255,0.8);
-  border-top: 2px solid rgba(255,255,255,0.95);
-  box-shadow: 0 4px 20px rgba(15,23,42,0.05), inset 0 1px 0 rgba(255,255,255,0.9);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--glass-shadow);
   border-radius: 18px;
   overflow: hidden;
 }
 
 .cardHeader {
   padding: 20px 24px;
-  border-bottom: 1.5px solid rgba(15,23,42,0.06);
+  border-bottom: 1px solid var(--border-subtle);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -130,10 +75,11 @@
 .cardTitle {
   font-size: 15px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text-primary);
   display: flex;
   align-items: center;
   gap: 8px;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 .cardBody {
@@ -151,7 +97,7 @@
 .sectionLabel {
   font-size: 11px;
   font-weight: 800;
-  color: #64748b;
+  color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.08em;
   white-space: nowrap;
@@ -160,7 +106,7 @@
 .sectionLine {
   flex: 1;
   height: 1px;
-  background: rgba(15,23,42,0.06);
+  background: var(--border-subtle);
 }
 
 /* ── Form Grid ───────────────────────────────────────────────── */
@@ -191,7 +137,7 @@
 .formLabel {
   font-size: 11px;
   font-weight: 700;
-  color: #64748b;
+  color: var(--text-tertiary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -199,48 +145,57 @@
 .formInput {
   width: 100%;
   padding: 10px 14px;
-  border: 1.5px solid rgba(15,23,42,0.1);
+  border: 1px solid var(--border-default);
   border-radius: 10px;
   font-size: 0.9rem;
   font-weight: 500;
   font-family: inherit;
-  color: #0f172a;
-  background: rgba(255,255,255,0.9);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
   outline: none;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 4px rgba(15,23,42,0.03);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .formInput:focus {
-  border-color: rgba(99,102,241,0.5);
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.1), 0 2px 8px rgba(99,102,241,0.08);
-  background: #ffffff;
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 2px 8px rgba(99, 102, 241, 0.1);
+  background: rgba(255, 255, 255, 0.08);
 }
 
-.formInput::placeholder { color: #94a3b8; font-weight: 400; }
+.formInput::placeholder {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* Style select dropdown options for dark theme */
+.formInput option {
+  background: #1a1a1a;
+  color: var(--text-primary);
+}
 
 .formTextarea {
   width: 100%;
   padding: 12px 14px;
-  border: 1.5px solid rgba(15,23,42,0.1);
+  border: 1px solid var(--border-default);
   border-radius: 10px;
   font-size: 0.9rem;
   font-weight: 500;
   font-family: inherit;
-  color: #0f172a;
-  background: rgba(255,255,255,0.9);
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.05);
   outline: none;
   resize: vertical;
   min-height: 100px;
   line-height: 1.6;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 4px rgba(15,23,42,0.03);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .formTextarea:focus {
-  border-color: rgba(99,102,241,0.5);
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.1), 0 2px 8px rgba(99,102,241,0.08);
-  background: #ffffff;
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 2px 8px rgba(99, 102, 241, 0.1);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 /* ── Tags / Skills ───────────────────────────────────────────── */
@@ -249,28 +204,28 @@
   flex-wrap: wrap;
   gap: 8px;
   padding: 10px 12px;
-  border: 1.5px solid rgba(15,23,42,0.1);
+  border: 1px solid var(--border-default);
   border-radius: 10px;
-  background: rgba(255,255,255,0.9);
+  background: rgba(255, 255, 255, 0.05);
   min-height: 48px;
   cursor: text;
   transition: all 0.2s ease;
-  box-shadow: 0 1px 4px rgba(15,23,42,0.03);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
 }
 
 .tagInput:focus-within {
-  border-color: rgba(99,102,241,0.5);
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.1), 0 2px 8px rgba(99,102,241,0.08);
-  background: #ffffff;
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15), 0 2px 8px rgba(99, 102, 241, 0.1);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .tag {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(99,102,241,0.08);
-  color: #6366f1;
-  border: 1px solid rgba(99,102,241,0.2);
+  background: rgba(99, 102, 241, 0.15);
+  color: #818cf8;
+  border: 1px solid rgba(99, 102, 241, 0.3);
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 12px;
@@ -289,14 +244,16 @@
   align-items: center;
 }
 
-.tagRemove:hover { color: #4f46e5; }
+.tagRemove:hover {
+  color: #a5b4fc;
+}
 
 .tagRawInput {
   border: none;
   outline: none;
   font-size: 13px;
   font-family: inherit;
-  color: #111827;
+  color: var(--text-primary);
   background: transparent;
   min-width: 80px;
   flex: 1;
@@ -304,18 +261,18 @@
 
 /* ── Repeatable Section (education, experience, etc.) ─────────── */
 .repeatItem {
-  border: 1.5px solid rgba(15,23,42,0.06);
+  border: 1px solid var(--border-subtle);
   border-radius: 12px;
   padding: 18px 18px 14px;
   margin-bottom: 12px;
-  background: rgba(255,255,255,0.6);
+  background: rgba(255, 255, 255, 0.03);
   position: relative;
   transition: all 0.2s ease;
 }
 
 .repeatItem:hover {
-  background: rgba(255,255,255,0.9);
-  border-color: rgba(99,102,241,0.2);
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(99, 102, 241, 0.2);
 }
 
 .repeatItemHeader {
@@ -328,7 +285,7 @@
 .repeatItemTitle {
   font-size: 13px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text-primary);
 }
 
 /* ── Buttons ─────────────────────────────────────────────────── */
@@ -347,15 +304,18 @@
   cursor: pointer;
   transition: all 0.2s ease;
   white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(99,102,241,0.2);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
 }
 
-.btnPrimary:hover { 
+.btnPrimary:hover {
   background: linear-gradient(135deg, #4f46e5, #4338ca);
-  box-shadow: 0 6px 16px rgba(99,102,241,0.3);
+  box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
   transform: translateY(-1px);
 }
-.btnPrimary:active { transform: translateY(1px); }
+
+.btnPrimary:active {
+  transform: translateY(1px);
+}
 
 .btnPrimary:disabled {
   opacity: 0.6;
@@ -367,9 +327,9 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255,255,255,0.8);
-  color: #0f172a;
-  border: 1.5px solid rgba(15,23,42,0.1);
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-default);
   padding: 9px 20px;
   border-radius: 10px;
   font-size: 14px;
@@ -382,19 +342,19 @@
 }
 
 .btnSecondary:hover {
-  border-color: rgba(99,102,241,0.4);
-  color: #4f46e5;
-  background: #ffffff;
-  box-shadow: 0 4px 12px rgba(99,102,241,0.08);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #818cf8;
+  background: rgba(99, 102, 241, 0.1);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
 }
 
 .btnDanger {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(225, 29, 72, 0.05);
-  color: #e11d48;
-  border: 1px solid rgba(225, 29, 72, 0.2);
+  background: var(--danger-bg);
+  color: var(--danger);
+  border: 1px solid var(--danger-border);
   padding: 6px 14px;
   border-radius: 8px;
   font-size: 12px;
@@ -404,9 +364,9 @@
   transition: all 0.2s ease;
 }
 
-.btnDanger:hover { 
-  background: rgba(225, 29, 72, 0.1); 
-  border-color: rgba(225, 29, 72, 0.4); 
+.btnDanger:hover {
+  background: rgba(244, 63, 94, 0.15);
+  border-color: rgba(244, 63, 94, 0.4);
 }
 
 .btnGhost {
@@ -414,8 +374,8 @@
   align-items: center;
   gap: 8px;
   background: transparent;
-  color: #6366f1;
-  border: 1.5px dashed rgba(99,102,241,0.3);
+  color: #818cf8;
+  border: 1.5px dashed rgba(99, 102, 241, 0.25);
   padding: 10px 18px;
   border-radius: 10px;
   font-size: 13px;
@@ -428,9 +388,10 @@
   margin-top: 4px;
 }
 
-.btnGhost:hover { 
-  background: rgba(99,102,241,0.05); 
-  border-color: rgba(99,102,241,0.6); 
+.btnGhost:hover {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.5);
+  color: #a5b4fc;
 }
 
 /* ── Form actions row ────────────────────────────────────────── */
@@ -447,9 +408,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  color: #15803d;
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  color: var(--success);
   padding: 12px 16px;
   border-radius: 10px;
   font-size: 13.5px;
@@ -461,9 +422,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #dc2626;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: var(--danger);
   padding: 12px 16px;
   border-radius: 10px;
   font-size: 13.5px;
@@ -479,12 +440,12 @@
 }
 
 .resumeCard {
-  background: rgba(255,255,255,0.85);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1.5px solid rgba(255,255,255,0.8);
-  border-top: 2px solid rgba(255,255,255,0.95);
-  box-shadow: 0 4px 20px rgba(15,23,42,0.05), inset 0 1px 0 rgba(255,255,255,0.9);
+  background: var(--glass-bg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: var(--glass-shadow);
   border-radius: 18px;
   padding: 24px;
   display: flex;
@@ -495,44 +456,45 @@
 }
 
 .resumeCard:hover {
-  box-shadow: 0 12px 30px rgba(99,102,241,0.08), inset 0 1px 0 rgba(255,255,255,1);
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transform: translateY(-4px);
-  border-color: rgba(99,102,241,0.2);
+  border-color: rgba(99, 102, 241, 0.25);
 }
 
 .resumeCardIcon {
   width: 44px;
   height: 44px;
-  background: rgba(99,102,241,0.08);
+  background: rgba(99, 102, 241, 0.1);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
   flex-shrink: 0;
-  border: 1px solid rgba(99,102,241,0.15);
+  border: 1px solid rgba(99, 102, 241, 0.2);
 }
 
 .resumeCardTitle {
   font-size: 16px;
   font-weight: 800;
-  color: #0f172a;
+  color: var(--text-primary);
   margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 .resumeCardMeta {
   font-size: 12px;
-  color: #64748b;
+  color: var(--text-tertiary);
   font-family: var(--font-mono);
   margin-top: 4px;
 }
 
 .resumeCardBody {
   font-size: 13px;
-  color: #475569;
+  color: var(--text-secondary);
   line-height: 1.6;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -546,7 +508,7 @@
   align-items: center;
   gap: 10px;
   padding-top: 14px;
-  border-top: 1.5px solid rgba(15,23,42,0.06);
+  border-top: 1px solid var(--border-subtle);
 }
 
 /* ── Empty State ─────────────────────────────────────────────── */
@@ -567,13 +529,13 @@
 .emptyTitle {
   font-size: 15px;
   font-weight: 700;
-  color: #374151;
+  color: var(--text-secondary);
   margin: 0;
 }
 
 .emptyText {
   font-size: 13px;
-  color: #9ca3af;
+  color: var(--text-muted);
   margin: 0;
 }
 
@@ -581,8 +543,8 @@
 .spinner {
   width: 22px;
   height: 22px;
-  border: 2.5px solid #e5e7eb;
-  border-top-color: #4f46e5;
+  border: 2.5px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #818cf8;
   border-radius: 50%;
   animation: spin 0.7s linear infinite;
   flex-shrink: 0;
@@ -598,7 +560,7 @@
   justify-content: center;
   padding: 48px;
   gap: 12px;
-  color: #9ca3af;
+  color: var(--text-muted);
   font-size: 13.5px;
 }
 
@@ -606,5 +568,4 @@
 @media (max-width: 640px) {
   .formGrid2, .formGrid3 { grid-template-columns: 1fr; }
   .pageContent, .pageContentWide { padding: 20px 16px 40px; }
-  .topNav { padding: 0 16px; }
 }

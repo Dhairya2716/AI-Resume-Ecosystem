@@ -85,29 +85,63 @@ export default function ViewResume() {
   }, [id]);
 
   const handleExportPDF = async () => {
-    if (!printRef.current || !resume) return;
+    if (!printRef.current || !resume || isExporting) return;
     setIsExporting(true);
-    
-    // Temporarily make it visible for html2pdf to read it properly
+
     const element = printRef.current;
-    element.style.display = "block";
-    
+
+    const safeTitle = (resume.title || "Resume")
+      .replace(/[/\\?%*:|"<>]/g, "-")
+      .trim() || "Resume";
+
     const opt = {
-      margin:       0,
-      filename:     `${resume.title || 'Resume'}.pdf`,
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, useCORS: true },
-      jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+      margin: 0,
+      filename: `${safeTitle}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
     };
 
+    // try {
+    //   await html2pdf().from(element).set(opt).save();
+    // } catch (err) {
+    //   console.error("PDF Export failed", err);
+    // } finally {
+    //   setIsExporting(false);
+    // }
+
     try {
-      await html2pdf().from(element).set(opt).save();
-    } catch (err) {
-      console.error("PDF Export failed", err);
-    } finally {
-      element.style.display = "none";
+
+      // generate a blob instead of letting html2pdf handle saving
+      const blob = await html2pdf().from(element).set(opt).outputPdf("blob");
+
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${safeTitle}.pdf`; //extension is guaranted here
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+    }
+    catch (err) {
+
+      console.error("PDF Export Failed", err);
+      setError?.("Failed to export PDF. please try again.");
+
+    }
+    finally {
       setIsExporting(false);
     }
+
+  };
+
+  const handleDownloadOriginal = () => {
+    if (!resume?.resumeFile) return;
+    const rootUrl = API.defaults.baseURL.replace(/\/api$/, "");
+    const fileUrl = `${rootUrl}/${resume.resumeFile.replace(/\\/g, "/")}`;
+    window.open(fileUrl, "_blank");
   };
 
   if (loading) {
@@ -176,9 +210,15 @@ export default function ViewResume() {
               <GradientButton variant="secondary" onClick={() => navigate(`/edit-resume/${r._id}`)}>
                 ✏ Edit
               </GradientButton>
+              {r.resumeFile && (
+                <GradientButton variant="primary" onClick={handleDownloadOriginal}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" /></svg>
+                  Original PDF
+                </GradientButton>
+              )}
               <GradientButton variant="primary" onClick={handleExportPDF} loading={isExporting}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                Export to PDF
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" /></svg>
+                Export AI PDF
               </GradientButton>
             </div>
           </div>
@@ -414,12 +454,12 @@ export default function ViewResume() {
       </div>
 
       {/* ── Hidden Printable Resume Template for Export ──────────────── */}
-      <div style={{ display: "none" }}>
-        <div ref={printRef} style={{ 
-          width: "210mm", 
-          minHeight: "297mm", 
-          padding: "20mm", 
-          background: "white", 
+      <div style={{ position: "absolute", left: "-9999px", top: "-9999px" }}>
+        <div ref={printRef} style={{
+          width: "210mm",
+          minHeight: "297mm",
+          padding: "20mm",
+          background: "white",
           color: "black",
           fontFamily: "Arial, sans-serif",
           boxSizing: "border-box"
